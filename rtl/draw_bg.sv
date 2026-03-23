@@ -9,7 +9,7 @@
 
 module draw_bg (
         input  logic clk,
-        input  logic rst,
+        input  logic rst_n,
 
         input  logic [10:0] vcount_in,
         input  logic        vsync_in,
@@ -45,8 +45,8 @@ module draw_bg (
      * Internal logic
      */
 
-    always_ff @(posedge clk) begin : bg_ff_blk
-        if (rst) begin
+    always_ff @(posedge clk or negedge rst_n) begin : bg_ff_blk
+        if (!rst_n) begin
             vcount_out <= '0;
             vsync_out  <= '0;
             vblnk_out  <= '0;
@@ -69,19 +69,32 @@ module draw_bg (
         if (vblnk_in || hblnk_in) begin             // Blanking region:
             rgb_nxt = 12'h0_0_0;                    // - make it it black.
         end else begin                              // Active region:
-            if (vcount_in == 0)                     // - top edge:
-                rgb_nxt = 12'hf_f_0;                // - - make a yellow line.
-            else if (vcount_in == VER_PIXELS - 1)   // - bottom edge:
-                rgb_nxt = 12'hf_0_0;                // - - make a red line.
-            else if (hcount_in == 0)                // - left edge:
-                rgb_nxt = 12'h0_f_0;                // - - make a green line.
-            else if (hcount_in == HOR_PIXELS - 1)   // - right edge:
-                rgb_nxt = 12'h0_0_f;                // - - make a blue line.
+            if ((hcount_in >= 270 && hcount_in <= 284 && vcount_in >= 250 && vcount_in <= 349) ||
+                (hcount_in >= 330 && hcount_in <= 344 && vcount_in >= 250 && vcount_in <= 349) || 
+                (hcount_in >= 285 && hcount_in <= 299 && vcount_in >= 270 && vcount_in <= 309) || 
+                (hcount_in >= 315 && hcount_in <= 329 && vcount_in >= 270 && vcount_in <= 309) || 
+                (hcount_in >= 300 && hcount_in <= 314 && vcount_in >= 290 && vcount_in <= 329))  
+                rgb_nxt = 12'h4_e_d;
 
-            // Add your code here.
+            else if ((hcount_in >= 350 && hcount_in <= 389 && vcount_in >= 270 && vcount_in <= 279) || 
+                (hcount_in >= 350 && hcount_in <= 389 && vcount_in >= 320 && vcount_in <= 329) || 
+                (hcount_in >= 350 && hcount_in <= 359 && vcount_in >= 270 && vcount_in <= 329))  
+                rgb_nxt = 12'h4_e_d;
 
-            else                                    // The rest of active display pixels:
-                rgb_nxt = 12'h8_8_8;                // - fill with gray.
+            else if ((hcount_in >= 410 && hcount_in <= 449 && vcount_in >= 270 && vcount_in <= 279) || 
+                (hcount_in >= 410 && hcount_in <= 449 && vcount_in >= 320 && vcount_in <= 329) || 
+                (hcount_in >= 410 && hcount_in <= 419 && vcount_in >= 270 && vcount_in <= 329) || 
+                (hcount_in >= 440 && hcount_in <= 449 && vcount_in >= 300 && vcount_in <= 329) || 
+                (hcount_in >= 430 && hcount_in <= 449 && vcount_in >= 300 && vcount_in <= 309))   
+                rgb_nxt = 12'hf_0_f;
+
+            else if ((hcount_in >= 470 && hcount_in <= 509 && vcount_in >= 270 && vcount_in <= 279) || 
+                (hcount_in >= 470 && hcount_in <= 509 && vcount_in >= 320 && vcount_in <= 329) || 
+                (hcount_in >= 470 && hcount_in <= 479 && vcount_in >= 270 && vcount_in <= 329)) 
+                rgb_nxt = 12'hf_0_f;
+
+            else                                   
+                rgb_nxt = 12'hf_c_c;              
         end
     end
 
