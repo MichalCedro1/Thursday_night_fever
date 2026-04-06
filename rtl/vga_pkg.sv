@@ -24,6 +24,7 @@
     localparam VER_BLANK_TIME  = 28;
     localparam VER_SYNC_START  = 601;
     localparam VER_SYNC_TIME   = 4;
+    localparam COLOUR          = 12'h8_0_8;
     
     endpackage
     
