@@ -43,6 +43,9 @@ module top_fpga_tb;
     wire vs, hs;
     wire [3:0] r, g, b;
 
+    wire ps2_clk_tb;
+    wire ps2_data_tb;
+
 
     /**
      * Clock generation
@@ -61,6 +64,8 @@ module top_fpga_tb;
     top_vga_basys3 dut (
         .clk(clk),
         .btnC(rst),
+        .PS2Clk(ps2_clk_tb),
+        .PS2Data(ps2_data_tb),
         .Vsync(vs),
         .Hsync(hs),
         .vgaRed(r),

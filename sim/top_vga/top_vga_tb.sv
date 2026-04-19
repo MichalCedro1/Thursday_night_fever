@@ -42,6 +42,9 @@ module top_vga_tb;
     wire vs, hs;
     wire [3:0] r, g, b;
 
+    wire ps2_clk_tb;
+    wire ps2_data_tb;
+
 
     /**
      * Clock generation
@@ -60,6 +63,9 @@ module top_vga_tb;
     top_vga dut (
         .clk(clk),
         .rst_n(rst_n),
+        .PS2Clk(ps2_clk_tb),
+        .PS2Data(ps2_data_tb),
+        .clk100MHz(clk),
         .vs(vs),
         .hs(hs),
         .r(r),
