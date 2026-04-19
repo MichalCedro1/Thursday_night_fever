@@ -36,6 +36,7 @@ module top_vga (
     vga_if vga_tim(); 
     vga_if vga_bg();
     vga_if vga_rect();
+    vga_if vga_mouse();
     /**
      * Signals assignments
      */
@@ -114,7 +115,16 @@ module top_vga (
         .xpos       (xpos_sync2),
         .ypos       (ypos_sync2),
         .vga_in(vga_bg),
-        .vga_out(vga_rect)
+        .vga_out(vga_mouse)
+    );
+
+    draw_mouse u_draw_mouse (
+        .clk        (clk),
+        .rst_n      (rst_n),
+        .xpos       (xpos_sync2), 
+        .ypos       (ypos_sync2),
+        .vga_in     (vga_mouse), 
+        .vga_out    (vga_rect)
     );
 
 

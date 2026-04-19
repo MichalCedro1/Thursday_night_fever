@@ -8,8 +8,6 @@ module draw_rect (
     vga_if.out vga_out
 );
 
-//   localparam RECT_X      = 11'd200;
-//   localparam RECT_Y      = 11'd150;
     localparam RECT_WIDTH  = 11'd100;
     localparam RECT_HEIGHT = 11'd100;
     localparam RECT_COLOR  = 12'hf00;
