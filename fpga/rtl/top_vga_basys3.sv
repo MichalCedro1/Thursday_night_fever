@@ -30,14 +30,15 @@ module top_vga_basys3 (
      * Local variables and signals
      */
 
-    wire clk_in, clk_fb, clk_ss, clk_out;
+   // wire clk_in, clk_fb, clk_ss, clk_out;
     wire locked;
     wire pclk;
     wire pclk_mirror;
+    wire clk_100MHz;
 
-    (* KEEP = "TRUE" *)
-    (* ASYNC_REG = "TRUE" *)
-    logic [7:0] safe_start = 0;
+    //(* KEEP = "TRUE" *)
+    //(* ASYNC_REG = "TRUE" *)
+    //logic [7:0] safe_start = 0;
     // For details on synthesis attributes used above, see AMD Xilinx UG 901:
     // https://docs.xilinx.com/r/en-US/ug901-vivado-synthesis/Synthesis-Attributes
 
@@ -52,7 +53,7 @@ module top_vga_basys3 (
     /**
      * FPGA submodules placement
      */
-
+/*
     IBUF clk_ibuf (
         .I(clk),
         .O(clk_in)
@@ -101,7 +102,15 @@ module top_vga_basys3 (
 
     // Mirror pclk on a pin for use by the testbench;
     // not functionally required for this design to work.
+*/
 
+    clk_wiz_0_clk_wiz u_clk_wiz (
+        .clk(clk),              // Wejście głównego zegara z płytki
+        .clk100MHz(clk_100MHz), // Wyjście zegara 100 MHz
+        .clk40MHz(pclk),        // Wyjście zegara 40 MHz (podłączone bezpośrednio do pclk)
+        .locked(locked)         // Wyjście statusu
+    );
+    
     ODDR pclk_oddr (
         .Q(pclk_mirror),
         .C(pclk),
@@ -119,7 +128,7 @@ module top_vga_basys3 (
 
     top_vga u_top_vga (
         .clk(pclk),
-        .rst_n(btnC),
+        .rst_n(!btnC),
         .r(vgaRed),
         .g(vgaGreen),
         .b(vgaBlue),
