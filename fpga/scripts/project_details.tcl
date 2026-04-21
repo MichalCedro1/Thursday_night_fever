@@ -44,14 +44,14 @@ set sv_files {
 # Specify Verilog design files location         -- EDIT
  set verilog_files {
     ../rtl/clk_wiz_0.v
-    ../rtl/clk_wiz_0_clk_wiz
+    ../rtl/clk_wiz_0_clk_wiz.v
  }
 
 # Specify VHDL design files location            -- EDIT
  set vhdl_files {
-    ../../rtl/MouseCtl.vhd
-    ../../rtl/Ps2Interface.vhd
-    ../../rtl/MouseDisplay.vhd
+    ../rtl/MouseCtl.vhd
+    ../rtl/Ps2Interface.vhd
+    ../rtl/MouseDisplay.vhd
  }
 
 # Specify files for a memory initialization     -- EDIT
