@@ -227,7 +227,7 @@ begin
             -- transparent pixel of cursor
             -- let input pass to output
             -- (if used, add rgb_in to the sensitivity list)
---            else
+            else
                rgb_nxt <= rgb_in;
             end if;
          -- cursor display is not enabled
