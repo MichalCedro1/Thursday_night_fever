@@ -21,13 +21,33 @@ NOTE_TYPES = {
 }
 
 melody = [
-    ("E5", "quarter"),
-    ("D5", "quarter"),
-    ("C5", "half"),
-    ("PAUSE", "eighth"),
-    ("E5", "eighth"),
-    ("E5", "quarter"),
-    ("PAUSE", "whole")
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("B4", "whole"),
+    ("PAUSE", "whole"),
+    ("F#4", "whole"),
+    ("Ab", "whole"),
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("Db5", "whole"),
+    ("PAUSE", "whole"),
+    ("F#4", "whole"),
+    ("Ab4", "whole"),
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("B4", "whole"),
+    ("B4", "half"),
+    ("Ab4", "whole"),
+    ("PAUSE", "whole"),
+    ("A4", "half"),
+    ("A4", "half"),
+    ("A4", "whole"),
+    ("B4", "whole"),
+    ("B4", "whole"),
 ]
 
 
