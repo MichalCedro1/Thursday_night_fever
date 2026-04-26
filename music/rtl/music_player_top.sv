@@ -1,10 +1,13 @@
 module music_player_top (
     input logic clk,
     input logic rst_n,
+    input logic [1:0] song_id,
     output logic speaker
 );
 
     music_if m_if();
+
+    assign m_if.song_id = song_id;
 
     music_rom u_rom (
         .bus(m_if.rom)
