@@ -1,15 +1,36 @@
 CLOCK_FREQ = 100_000_000
-BPM = 120
+BPM = 400
 
 # [Hz]
 NOTES = {
-    "PAUSE": 0.0,
-    "C4": 261.63, "C#4": 277.18, "D4": 293.66, "D#4": 311.13,
-    "E4": 329.63, "F4": 349.23,  "F#4": 369.99, "G4": 392.00,
-    "G#4": 415.30, "A4": 440.00,  "A#4": 466.16, "B4": 493.88,
-    "C5": 523.25, "C#5": 554.37, "D5": 587.33, "D#5": 622.25,
-    "E5": 659.25, "F5": 698.46,  "F#5": 739.99, "G5": 783.99,
-    "G#5": 830.61, "A5": 880.00,  "A#5": 932.33, "B5": 987.77
+    "PAUSE": 0,
+    "Eb3": 156, "D#3": 156,
+    "E3": 165,
+    "F3": 175,
+    "F#3": 185, "Gb3": 185,
+    "G3": 196,
+    "Ab3": 208, "G#3": 208,
+    "A3": 220,
+    "Bb3": 233, "A#3": 233,
+    "B3": 247,
+    "C4": 262,
+    "Db4": 277, "C#4": 277,
+    "D4": 294,
+    "Eb4": 311, "D#4": 311,
+    "E4": 330,
+    "F4": 349,
+    "F#4": 370, "Gb4": 370,
+    "G4": 392,
+    "Ab4": 415, "G#4": 415,
+    "A4": 440,
+    "Bb4": 466, "A#4": 466,
+    "B4": 494,
+    "C5": 523,
+    "Db5": 554, "C#5": 554,
+    "D5": 587,
+    "Eb5": 622, "D#5": 622,
+    "E5": 659,
+    "F5": 698
 }
 
 NOTE_TYPES = {
@@ -20,130 +41,201 @@ NOTE_TYPES = {
     "sixteenth": 0.0625   # Szesnastka
 }
 
+# Night Fever
 melody = [
-    ("B3", "half"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "whole"),
-    ("F#3", "half"),
-    ("Ab3", "half"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("Db4", "quarter"),
-    ("PAUSE", "whole"),
-    ("F#3", "half"),
-    ("Ab3", "half"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("Ab3", "half"),
-    ("PAUSE", "half"),
-    ("A3", "quarter"),
-    ("A3", "quarter"),
-    ("A3", "quarter"),
-    ("PAUSE", "half"),
-    ("B3", "half"),
-    ("B3", "half"),
-    ("PAUSE", "whole"),
+    ("B3", "half")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "whole")
+    ("F#3", "half")
+    ("Ab3", "half")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("Db4", "quarter")
+    ("PAUSE", "whole")
+    ("F#3", "half")
+    ("Ab3", "half")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("Ab3", "half")
+    ("PAUSE", "half")
+    ("A3", "quarter")
+    ("A3", "quarter")
+    ("A3", "quarter")
+    ("PAUSE", "half")
+    ("B3", "half")
+    ("B3", "half")
+    ("PAUSE", "whole")
 
 
-    ("Ab3", "half"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("D4", "half"),
-    ("Db4", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("B3", "half"),
-    ("PAUSE", "half"),
-    ("Ab3", "half"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("Db4", "quarter"),
-    ("B3", "quarter"),
-    ("Ab3", "half"),
-    ("PAUSE", "half"),
-    ("Ab3", "half"),
-    ("B3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "half"),
-    ("B3", "half"),
-    ("Ab3", "half"),
-    ("PAUSE", "quarter"),
-    ("Ab3", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("B3", "quarter"),
-    ("PAUSE", "half"),
-    ("PAUSE", "quarter"),
 
-    ("B3", "half"),
-    ("Bb3", "quarter"),
-    ("PAUSE", "half"),
+    ("Ab3", "half")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("D4", "half")
+    ("Db4", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "half")
+    ("PAUSE", "half")
+    ("Ab3", "half")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("Db4", "quarter")
+    ("B3", "quarter")
+    ("Ab3", "half")
+    ("PAUSE", "half")
+    
 
-    ("Eb3", "half"),
-    ("F#3", "half"),
-    ("Ab3", "quarter"),
-    ("B3", "half"),
-    ("B3", "quarter"),
-    ("Ab3", "half"),
-    ("PAUSE", "quarter"),
-    ("F#3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("Ab3", "half"),
-    ("F#3", "half"),
-    ("Eb3", "half"),
-    ("PAUSE", "quarter"),
-    ("Ab3", "half"),
-    ("F#3", "quarter"),
-    ("Eb3", "half"),
-    ("PAUSE", "half"),
-    ("Eb3", "half"),
-    ("F#3", "half"),
-    ("Ab3", "half"),
-    ("B3", "half"),
-    ("B3", "quarter"),
-    ("Ab3", "quarter"),
-    ("PAUSE", "quarter"),
-    ("F#3", "half"),
-    ("Ab3", "quarter"),
-    ("F#3", "quarter"),
-    ("Eb3", "half"),
-    ("Eb3", "quarter"),
-    ("PAUSE", "whole"),
-    ("PAUSE", "quarter"),
+    ("Ab3", "half")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "half")
+    ("B3", "half")
+    ("Ab3", "half")
+    ("PAUSE", "quarter")
+    ("Ab3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "quarter")
+    ("B3", "quarter")
+    ("B3", "quarter")
+    ("PAUSE", "whole")
 
-    ("Eb4", "half"),
-    ("F#4", "half"),
-    ("Ab4", "quarter"),
-    ("B4", "half"),
-    ("B4", "quarter"),
-    ("Ab4", "half"),
-    ("PAUSE", "quarter"),
-    ("F#4", "quarter"),
-    ("Ab4", "quarter"),
-    ("B4", "half"),
-    ("B4", "quarter"),
-    ("B4", "quarter"),
-    ("PAUSE", "quarter"),
-    ("C5", "quarter"),
+
+    ("B3", "whole")
+    ("Bb3", "quarter")
+    ("PAUSE", "quarter")
+
+
+    ("Eb3", "half")
+    ("F#3", "half")
+    ("Ab3", "half")
+    ("B3", "whole")
+    ("Ab3", "whole")
+    ("F#3", "half")
+    ("Ab3", "half")
+    ("F#3", "half")
+    ("Eb3", "half")
+    ("Ab3", "whole")
+    ("F#3", "whole")
+    ("PAUSE", "quarter")
+    ("Eb3", "half")
+    ("F#3", "half")
+    ("Ab3", "half")
+    ("B3", "whole")
+    ("Ab3", "half")
+    ("F#3", "half")
+    ("Ab3", "quarter")
+    ("F#3", "quarter")
+    ("Eb3", "whole")
+    ("PAUSE", "whole")
+    
+    ("Eb4", "half")
+    ("F#4", "half")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("B4", "quarter")
+    ("Ab4", "half")
+    ("PAUSE", "quarter")
+    ("F#4", "quarter")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("B4", "quarter")
+    ("B4", "quarter")
+    ("PAUSE", "half")
+
+    
+    ("C5", "whole")
+    ("PAUSE", "half")
+
+
+    ("Db5", "quarter")
+    ("PAUSE", "quarter")
+    ("Db5", "half")
+    ("PAUSE", "half")
+    ("B4", "quarter")
+    ("PAUSE", "quarter")
+    ("Ab4", "quarter")
+    ("PAUSE", "quarter")
+    ("B4", "whole")
+    ("Ab4", "quarter")
+    ("PAUSE", "quarter")
+    ("F#4", "half")
+    ("PAUSE", "quarter")
+    ("E4", "quarter")
+    ("Db4", "half")
+
+    ("PAUSE", "half")
+    ("PAUSE", "quarter")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("PAUSE", "quarter")
+    ("B4", "half")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("PAUSE", "quarter")
+    ("Db5", "half")
+
+    ("PAUSE", "whole")
+    ("F#4", "whole")
+    ("Ab4", "half")
+    ("F#4", "half")
+    ("E4", "half")
+    ("Db4", "whole")
+    ("PAUSE", "whole")
+
+
+    ("Db5", "quarter")
+    ("PAUSE", "quarter")
+    ("Db5", "half")
+    ("PAUSE", "half")
+    ("B4", "quarter")
+    ("PAUSE", "quarter")
+    ("Ab4", "quarter")
+    ("PAUSE", "quarter")
+    ("B4", "whole")
+    ("Ab4", "quarter")
+    ("PAUSE", "quarter")
+    ("F#4", "half")
+    ("PAUSE", "quarter")
+    ("E4", "quarter")
+    ("Db4", "half")
+
+    ("PAUSE", "half")
+    ("PAUSE", "quarter")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("PAUSE", "quarter")
+    ("B4", "half")
+    ("Ab4", "quarter")
+    ("B4", "half")
+    ("PAUSE", "quarter")
+    ("Db5", "half")
+
+    ("PAUSE", "whole")
+    ("F#4", "whole")
+    ("Ab4", "half")
+    ("F#4", "half")
+    ("E4", "half")
+    ("Db4", "whole")
+    ("PAUSE", "whole")
+
 ]
 
 
