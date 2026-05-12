@@ -95,6 +95,18 @@ module top_vga_tb;
         #(RST_START_TIME) rst_n = 1'b0;
         #(RST_ACTIVE_TIME) rst_n = 1'b1;
 
+        #(10_000_000); 
+
+        force dut.mouse_xpos = 12'd400; 
+        force dut.mouse_ypos = 12'd300; 
+        force dut.mouse_left = 1'b1;    
+        
+        #(100_000); 
+        
+        release dut.mouse_left;
+        release dut.mouse_xpos;
+        release dut.mouse_ypos;
+
         $display("If simulation ends before the testbench");
         $display("completes, use the menu option to run all.");
         $display("Prepare to wait a long time...");

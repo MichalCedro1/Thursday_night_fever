@@ -3,6 +3,7 @@
 module draw_mouse (
     input  wire clk,
     input  wire rst_n,
+    input  wire enable,
     input  wire [11:0] xpos,
     input  wire [11:0] ypos,
     vga_if.in  vga_in,
@@ -44,6 +45,11 @@ module draw_mouse (
             vga_out.hblnk  <= vga_in.hblnk;
             
             vga_out.rgb    <= mouse_rgb_out;
+
+            if (enable)
+                vga_out.rgb <= mouse_rgb_out;
+            else
+                vga_out.rgb <= vga_in.rgb;
         end
     end
 

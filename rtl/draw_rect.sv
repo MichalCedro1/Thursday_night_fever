@@ -1,6 +1,7 @@
 module draw_rect (
     input  logic        clk,
     input  logic        rst_n,
+    input  logic        enable,  
     input  logic [11:0] xpos,
     input  logic [11:0] ypos,
     
@@ -15,13 +16,17 @@ module draw_rect (
     logic [11:0] rgb_nxt;
 
     always_comb begin
+        // Domyślnie przepuszczamy tło z poprzedniego modułu (nie rysujemy kwadratu)
         rgb_nxt = vga_in.rgb;
         
-        if ((vga_in.hcount >= xpos) && (vga_in.hcount < (xpos + RECT_WIDTH)) &&
-            (vga_in.vcount >= ypos) && (vga_in.vcount < (ypos + RECT_HEIGHT))) begin
-            
-            rgb_nxt = RECT_COLOR;
-            
+        // Rysujemy kwadrat TYLKO wtedy, gdy sygnał enable = 1 (czyli w stanie STATE_GRA)
+        if (enable) begin
+            if ((vga_in.hcount >= xpos) && (vga_in.hcount < (xpos + RECT_WIDTH)) &&
+                (vga_in.vcount >= ypos) && (vga_in.vcount < (ypos + RECT_HEIGHT))) begin
+                
+                rgb_nxt = RECT_COLOR;
+                
+            end
         end
     end
 
