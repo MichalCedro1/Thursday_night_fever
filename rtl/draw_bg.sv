@@ -86,36 +86,6 @@ module draw_bg
                         rgb_nxt = 12'h0_f_0;                                
                     else if (vga_in.hcount == HOR_PIXELS - 1)               
                         rgb_nxt = 12'h0_0_f;
-                    else if ((vga_in.hcount >= 270 && vga_in.hcount <= 284 && vga_in.vcount >= 250 && vga_in.vcount <= 349) ||
-                    (vga_in.hcount >= 330 && vga_in.hcount <= 344 && vga_in.vcount >= 250 && vga_in.vcount <= 349) || 
-                    (vga_in.hcount >= 285 && vga_in.hcount <= 299 && vga_in.vcount >= 270 && vga_in.vcount <= 309) || 
-                    (vga_in.hcount >= 315 && vga_in.hcount <= 329 && vga_in.vcount >= 270 && vga_in.vcount <= 309) || 
-                    (vga_in.hcount >= 300 && vga_in.hcount <= 314 && vga_in.vcount >= 290 && vga_in.vcount <= 329))  
-                    rgb_nxt = 12'h4_e_d;
-
-                else if ((vga_in.hcount >= 350 && vga_in.hcount <= 389 && vga_in.vcount >= 270 && vga_in.vcount <= 279) || 
-                    (vga_in.hcount >= 350 && vga_in.hcount <= 389 && vga_in.vcount >= 320 && vga_in.vcount <= 329) || 
-                    (vga_in.hcount >= 350 && vga_in.hcount <= 359 && vga_in.vcount >= 270 && vga_in.vcount <= 329))  
-                    rgb_nxt = 12'h4_e_d;
-
-                else if ((vga_in.hcount >= 410 && vga_in.hcount <= 449 && vga_in.vcount >= 270 && vga_in.vcount <= 279) || 
-                    (vga_in.hcount >= 410 && vga_in.hcount <= 449 && vga_in.vcount >= 320 && vga_in.vcount <= 329) || 
-                    (vga_in.hcount >= 410 && vga_in.hcount <= 419 && vga_in.vcount >= 270 && vga_in.vcount <= 329) || 
-                    (vga_in.hcount >= 440 && vga_in.hcount <= 449 && vga_in.vcount >= 300 && vga_in.vcount <= 329) || 
-                    (vga_in.hcount >= 430 && vga_in.hcount <= 449 && vga_in.vcount >= 300 && vga_in.vcount <= 309))   
-                    rgb_nxt = 12'hf_0_f;
-
-                else if ((vga_in.vcount >= 470 && vga_in.vcount <= 509 && vga_in.hcount >= 270 && vga_in.hcount <= 279) || 
-                    (vga_in.vcount >= 470 && vga_in.vcount <= 509 && vga_in.hcount >= 320 && vga_in.hcount <= 329) || 
-                    (vga_in.vcount >= 470 && vga_in.vcount <= 479 && vga_in.hcount >= 270 && vga_in.hcount <= 329)|| 
-                    (vga_in.vcount >= 550 && vga_in.vcount <= 559 && vga_in.hcount >= 270 && vga_in.hcount <= 329)) 
-                    rgb_nxt = 12'hd_9_e;
-
-                else if ((vga_in.vcount >= 300 && vga_in.vcount <= 360 && vga_in.hcount >= 250 && vga_in.hcount <= 259) || 
-                    (vga_in.vcount >= 300 && vga_in.vcount <= 360 && vga_in.hcount >= 461 && vga_in.hcount <= 470) || 
-                    (vga_in.vcount >= 360 && vga_in.vcount <= 369 && vga_in.hcount >= 250 && vga_in.hcount <= 470)) 
-                    rgb_nxt = COLOUR;
-
                 else                                   
                     rgb_nxt = 12'hf_c_c;
             end

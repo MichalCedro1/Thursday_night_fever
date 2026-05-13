@@ -162,8 +162,8 @@ module top_vga (
             current_state <= STATE_MENU;
         end else begin
             if (current_state == STATE_MENU) begin
-                if (mouse_left && (mouse_xpos >= 300 && mouse_xpos <= 500) && 
-                                  (mouse_ypos >= 250 && mouse_ypos <= 350)) begin
+                if (left_sync2 && (xpos_sync2 >= 300 && xpos_sync2 <= 500) && 
+                  (ypos_sync2 >= 250 && ypos_sync2 <= 350)) begin
                     current_state <= STATE_GRA;
                 end
             end

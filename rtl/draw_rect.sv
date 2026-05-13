@@ -11,7 +11,32 @@ module draw_rect (
 
     localparam RECT_WIDTH  = 11'd100;
     localparam RECT_HEIGHT = 11'd100;
-    localparam RECT_COLOR  = 12'hf00;
+
+    logic [11:0] xpos_prev;   
+    logic [11:0] current_color; 
+    logic vsync_prev;        
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            xpos_prev     <= 12'd350; 
+            current_color <= 12'hf00; 
+            vsync_prev    <= 1'b0;
+        end else begin
+            vsync_prev <= vga_in.vsync;
+            
+
+            if (vga_in.vsync && !vsync_prev) begin
+                
+                if (xpos > xpos_prev) begin
+                    current_color <= 12'h00f; 
+                end else if (xpos < xpos_prev) begin
+                    current_color <= 12'hf00; 
+                end
+                
+                xpos_prev <= xpos;
+            end
+        end
+    end
 
     logic [11:0] rgb_nxt;
 
@@ -22,7 +47,7 @@ module draw_rect (
             if ((vga_in.hcount >= xpos) && (vga_in.hcount < (xpos + RECT_WIDTH)) &&
                 (vga_in.vcount >= ypos) && (vga_in.vcount < (ypos + RECT_HEIGHT))) begin
                 
-                rgb_nxt = RECT_COLOR;
+                rgb_nxt = current_color; 
                 
             end
         end

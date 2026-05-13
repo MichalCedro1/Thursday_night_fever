@@ -81,7 +81,7 @@ module keyboard_ctrl (
         if (!rst_n) begin
             vsync_prev <= 1'b0;
             xpos <= 12'd350; 
-            ypos <= 12'd250; 
+            ypos <= 12'd500; 
         end else begin
             vsync_prev <= vsync;
             
