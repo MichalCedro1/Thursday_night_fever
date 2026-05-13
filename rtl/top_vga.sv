@@ -77,13 +77,12 @@ module top_vga (
     logic [11:0] key_xpos;
     logic [11:0] key_ypos;
 
-    // Instancja Twojego nowego kontrolera
     keyboard_ctrl u_keyboard_ctrl (
-        .clk        (clk),             // Działa na głównym zegarze VGA (40 MHz)
+        .clk        (clk), 
         .rst_n      (rst_n),
         .ps2_clk    (PS2Clk),
         .ps2_data   (PS2Data),
-        .vsync      (vga_tim.vsync),   // Podajemy vsync z modułu vga_timing
+        .vsync      (vga_tim.vsync),  
         .xpos       (key_xpos),
         .ypos       (key_ypos)
     );
@@ -116,7 +115,7 @@ module top_vga (
     logic [11:0] ypos_sync1, ypos_sync2;
     logic        left_sync1, left_sync2;
 
-    always_ff @(posedge clk) begin
+    always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             xpos_sync1 <= 12'b0;
             xpos_sync2 <= 12'b0;
@@ -163,13 +162,11 @@ module top_vga (
             current_state <= STATE_MENU;
         end else begin
             if (current_state == STATE_MENU) begin
-                // Jeśli lewy przycisk wciśnięty i myszka znajduje się w obszarze "przycisku START"
                 if (mouse_left && (mouse_xpos >= 300 && mouse_xpos <= 500) && 
                                   (mouse_ypos >= 250 && mouse_ypos <= 350)) begin
                     current_state <= STATE_GRA;
                 end
             end
-            // Tutaj w przyszłości możesz dodać warunek powrotu (np. koniec gry, klawisz ESC)
         end
     end
 

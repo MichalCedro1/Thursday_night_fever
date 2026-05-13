@@ -27,7 +27,7 @@ module draw_mouse (
         .enable_mouse_display_out() 
     );
 
-    always_ff @(posedge clk) begin
+    always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             vga_out.vcount <= '0;
             vga_out.vsync  <= '0;

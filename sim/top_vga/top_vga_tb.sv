@@ -29,7 +29,7 @@ module top_vga_tb;
      *  Local parameters
      */
 
-    localparam CLK_PERIOD = 25;     // 40 MHz
+    localparam CLK_PERIOD = 25;   
     localparam RST_START_TIME = 30;
     localparam RST_ACTIVE_TIME = 30;
 
@@ -79,9 +79,9 @@ module top_vga_tb;
         .FILE_DIR("../../results")
     ) u_tiff_writer (
         .clk(clk),
-        .r({r,r}), // fabricate an 8-bit value
-        .g({g,g}), // fabricate an 8-bit value
-        .b({b,b}), // fabricate an 8-bit value
+        .r({r,r}),
+        .g({g,g}),
+        .b({b,b}),
         .go(vs)
     );
 

@@ -56,13 +56,9 @@ module draw_bg
     end
 
         always_comb begin : bg_comb_blk
-            if (vga_in.vblnk || vga_in.hblnk) begin              // Blanking region:
-                rgb_nxt = 12'h0_0_0;                             // - make it black.
+            if (vga_in.vblnk || vga_in.hblnk) begin           
+                rgb_nxt = 12'h0_0_0;                      
             end else begin   
-                
-                // ==========================================
-                // EKRAN STARTOWY (MENU)
-                // ==========================================
                 if (state == STATE_MENU) begin
                     if (vga_in.vcount == 0)                                 
                         rgb_nxt = 12'hf_f_0;                                
@@ -73,20 +69,15 @@ module draw_bg
                     else if (vga_in.hcount == HOR_PIXELS - 1)               
                         rgb_nxt = 12'h0_0_f;
                     
-                    // Rysujemy przycisk "START" w koordynatach X: 300-500, Y: 250-350
                     else if ((vga_in.hcount >= 300 && vga_in.hcount <= 500) && 
                         (vga_in.vcount >= 250 && vga_in.vcount <= 350)) begin
-                        rgb_nxt = 12'h0_f_0; // Zielony przycisk
+                        rgb_nxt = 12'h0_f_0;
                     end else begin
-                        rgb_nxt = 12'h2_2_2; // Ciemnoszare tło dla reszty ekranu menu
+                        rgb_nxt = 12'h2_2_2;
                     end
 
-                // ==========================================
-                // EKRAN WŁAŚCIWEJ GRY (Plansza)
-                // ==========================================
                 end else begin
                 
-                    // TUTAJ WKLEJASZ SWÓJ STARY KOD RYSOWANIA PLANSZY:
                     if (vga_in.vcount == 0)                                 
                         rgb_nxt = 12'hf_f_0;                                
                     else if (vga_in.vcount == VER_PIXELS - 1)               

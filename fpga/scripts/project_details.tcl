@@ -36,6 +36,7 @@ set sv_files {
     ../rtl/vga_pkg.sv
     ../rtl/vga_if.sv
     ../rtl/vga_timing.sv
+    ../rtl/keyboard_ctrl.sv
     ../rtl/draw_bg.sv
     ../rtl/draw_rect.sv 
     ../rtl/top_vga.sv
