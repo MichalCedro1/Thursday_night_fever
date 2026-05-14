@@ -22,7 +22,9 @@ module top_vga_basys3 (
         output wire [3:0] vgaRed,
         output wire [3:0] vgaGreen,
         output wire [3:0] vgaBlue,
-        output wire JA1
+        output wire JA1,
+        output wire speaker,
+        output wire amp_en
     );
 
     timeunit 1ns;
@@ -140,5 +142,31 @@ module top_vga_basys3 (
         .hs(Hsync),
         .vs(Vsync)
     );
+
+    /**
+     * Music Player
+     */
+     assign amp_en = 1'b1;
+
+     music_if m_if();
+ 
+     assign m_if.song_id = 2'b00;
+ 
+     music_rom u_rom (
+         .bus(m_if.rom)
+     );
+ 
+     music_controller u_ctrl (
+         .clk(clk_100MHz), 
+         .rst_n(!btnC), 
+         .bus(m_if.controller)
+     );
+ 
+     tone_generator u_tone (
+         .clk(clk_100MHz), 
+         .rst_n(!btnC), 
+         .bus(m_if.tone_gen), 
+         .speaker(speaker)
+     );
 
 endmodule
