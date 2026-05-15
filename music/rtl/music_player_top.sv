@@ -2,7 +2,7 @@ module music_player_top (
     input logic clk,
     input logic rst_n,
     input logic [1:0] song_id,
-    output logic speaker
+    output logic speakerdasw
 );
 
     music_if m_if();
