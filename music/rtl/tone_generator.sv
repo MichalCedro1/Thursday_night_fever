@@ -1,5 +1,6 @@
 module tone_generator (
     input logic clk,
+    input logic rst_n,
     music_if.tone_gen bus,
     output logic speaker
 );
@@ -8,9 +9,14 @@ module tone_generator (
     logic [31:0] counter_nxt;
     logic speaker_nxt;
 
-    always_ff @(posedge clk) begin
-        counter <= counter_nxt;
-        speaker <= speaker_nxt;
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            counter <= counter_nxt;
+            speaker <= speaker_nxt;
+        end else begin
+            counter <= counter_nxt;
+            speaker <= speaker_nxt;
+        end
     end
 
     always_comb begin

@@ -42,6 +42,10 @@ set sv_files {
     ../rtl/top_vga.sv
     ../rtl/draw_mouse.sv
     rtl/top_vga_basys3.sv
+    ../music/rtl/music_if.sv
+    ../music/rtl/music_rom.sv
+    ../music/rtl/music_controller.sv
+    ../music/rtl/tone_generator.sv
 }
 
 # Specify Verilog design files location         -- EDIT
