@@ -50,7 +50,7 @@ set sv_files {
 
     ../music/rtl/music_rom_melodia.sv
     ../music/rtl/music_rom_bas.sv
-    ../music/rtl/music_rom_tlo.sv
+    ../music/rtl/music_rom_hawajska.sv
     ../music/rtl/music_rom_gitara1.sv
 }
 

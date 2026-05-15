@@ -167,7 +167,7 @@ module top_vga_basys3 (
     music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.controller));
     tone_generator u_tone_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
 
-    music_rom_tlo u_rom_3 (.bus(m_if_3.rom));
+    music_rom_gitara1 u_rom_3 (.bus(m_if_3.rom));
     music_controller u_ctrl_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.controller));
     tone_generator u_tone_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.tone_gen), .speaker(spk3));
 
@@ -177,7 +177,7 @@ module top_vga_basys3 (
 
     logic [2:0] audio_mix;
 
-    assign audio_mix = spk1 + spk2 + spk3 + spk4;
+    assign audio_mix = spk1 + spk2 + spk3;
 
     audio_pwm u_mixer (
         .clk(clk_100MHz),
