@@ -46,10 +46,16 @@ set sv_files {
     ../rtl/draw_score.sv
     ../rtl/font_rom.sv
     rtl/top_vga_basys3.sv
+    
     ../music/rtl/music_if.sv
-    ../music/rtl/music_rom.sv
     ../music/rtl/music_controller.sv
     ../music/rtl/tone_generator.sv
+    ../music/rtl/audio_pwm.sv
+
+    ../music/rtl/music_rom_melodia.sv
+    ../music/rtl/music_rom_bas.sv
+    ../music/rtl/music_rom_hawajska.sv
+    ../music/rtl/music_rom_gitara1.sv
 }
 
 # Specify Verilog design files location         -- EDIT
