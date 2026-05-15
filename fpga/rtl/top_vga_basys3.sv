@@ -143,30 +143,47 @@ module top_vga_basys3 (
         .vs(Vsync)
     );
 
-    /**
-     * Music Player
-     */
-     assign amp_en = 1'b1;
+    //Polifonia
 
-     music_if m_if();
- 
-     assign m_if.song_id = 2'b00;
- 
-     music_rom u_rom (
-         .bus(m_if.rom)
-     );
- 
-     music_controller u_ctrl (
-         .clk(clk_100MHz), 
-         .rst_n(!btnC), 
-         .bus(m_if.controller)
-     );
- 
-     tone_generator u_tone (
-         .clk(clk_100MHz), 
-         .rst_n(!btnC), 
-         .bus(m_if.tone_gen), 
-         .speaker(speaker)
-     );
+    assign amp_en = 1'b1;
+
+    music_if m_if_1();
+    music_if m_if_2();
+    music_if m_if_3();
+    music_if m_if_4();
+
+    assign m_if_1.song_id = 2'b00;
+    assign m_if_2.song_id = 2'b00;
+    assign m_if_3.song_id = 2'b00;
+    assign m_if_4.song_id = 2'b00;
+
+    logic spk1, spk2, spk3, spk4;
+
+    music_rom_melodia u_rom_1 (.bus(m_if_1.rom));
+    music_controller u_ctrl_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.controller));
+    tone_generator u_tone_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.tone_gen), .speaker(spk1));
+
+    music_rom_bas u_rom_2 (.bus(m_if_2.rom));
+    music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.controller));
+    tone_generator u_tone_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
+
+    music_rom_tlo u_rom_3 (.bus(m_if_3.rom));
+    music_controller u_ctrl_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.controller));
+    tone_generator u_tone_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.tone_gen), .speaker(spk3));
+
+    music_rom_gitara1 u_rom_4 (.bus(m_if_4.rom));
+    music_controller u_ctrl_4 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_4.controller));
+    tone_generator u_tone_4 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_4.tone_gen), .speaker(spk4));
+
+    logic [2:0] audio_mix;
+
+    assign audio_mix = spk1 + spk2 + spk3 + spk4;
+
+    audio_pwm u_mixer (
+        .clk(clk_100MHz),
+        .rst_n(!btnC),
+        .mix_in(audio_mix),
+        .pwm_out(speaker)
+    );
 
 endmodule

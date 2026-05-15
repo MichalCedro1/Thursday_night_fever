@@ -5,11 +5,11 @@ module music_controller (
 );
 
     logic [31:0] timer;
-    logic [9:0] current_address;
+    logic [15:0] current_address;
     logic [1:0] last_song_id;
 
     logic [31:0] timer_nxt;
-    logic [9:0] current_address_nxt;
+    logic [15:0] current_address_nxt;
     logic [1:0] last_song_id_nxt;
 
     assign bus.address = current_address;

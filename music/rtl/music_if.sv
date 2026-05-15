@@ -1,5 +1,5 @@
 interface music_if;
-    logic [9:0] address;
+    logic [15:0] address;
     logic [31:0] note_divider;
     logic [31:0] duration;
     logic [1:0] song_id;
