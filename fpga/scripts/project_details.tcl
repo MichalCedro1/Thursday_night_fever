@@ -41,6 +41,10 @@ set sv_files {
     ../rtl/draw_rect.sv 
     ../rtl/top_vga.sv
     ../rtl/draw_mouse.sv
+    ../rtl/draw_falling_block.sv
+    ../rtl/falling_block_ctrl.sv
+    ../rtl/draw_score.sv
+    ../rtl/font_rom.sv
     rtl/top_vga_basys3.sv
     ../music/rtl/music_if.sv
     ../music/rtl/music_rom.sv
