@@ -43,13 +43,16 @@ vga_if vga_falling_out();
 vga_if vga_mouse();
 vga_if vga_score_out();
 
+logic game_over_sig;
+
+
 /**
  * Signals assignments
  */
-// POPRAWKA 2: Na ekran wyrzucamy OSTATNI element łańcucha, czyli myszkę!
+
 assign vs = vga_mouse.vsync;
 assign hs = vga_mouse.hsync;
-assign {r,g,b} = vga_mouse.rgb;
+assign {r,g,b} = game_over_sig ? 12'h000 : vga_mouse.rgb;
 
 game_state_t current_state;
 
@@ -99,7 +102,7 @@ logic player_color_sig;
 logic enemy_color_sig;
 
 keyboard_ctrl u_keyboard_ctrl (
-    .clk        (clk), 
+    .clk,
     .rst_n      (rst_n),
     .ps2_clk    (PS2Clk),
     .ps2_data   (PS2Data),
@@ -111,7 +114,7 @@ keyboard_ctrl u_keyboard_ctrl (
 );
 
 MouseCtl u_mouse_ctl (
-    .clk(clk100MHz),
+    .clk,
     .rst(!rst_n), 
     .xpos(mouse_xpos),
     .ypos(mouse_ypos),
@@ -148,10 +151,8 @@ always_ff @(posedge clk or negedge rst_n) begin
     end
 end
 
-// 1. Rysuje gracza (bierze tło: vga_bg, wyrzuca: vga_rect)
-// 1. Rysuje gracza (bierze tło: vga_bg, wyrzuca: vga_rect)
 draw_rect u_draw_rect (
-    .clk              (clk),
+    .clk,
     .rst_n            (rst_n),
     .enable           (current_state == STATE_GRA),
     .xpos             (key_xpos),
@@ -161,9 +162,8 @@ draw_rect u_draw_rect (
     .vga_out          (vga_rect)
 );
 
-// 2. Rysuje przeciwnika (bierze gracza: vga_rect, wyrzuca: vga_falling_out)
 draw_falling_block u_draw_falling (
-    .clk        (clk),
+    .clk,
     .rst_n      (rst_n),
     .xpos       (enemy_x),
     .ypos       (enemy_y),
@@ -173,9 +173,8 @@ draw_falling_block u_draw_falling (
     .vga_out    (vga_falling_out)
 );
 
-// POPRAWKA 3: Rysuje myszkę (bierze przeciwnika: vga_falling_out, wyrzuca: vga_mouse)
 draw_mouse u_draw_mouse (
-    .clk        (clk),
+    .clk,
     .rst_n      (rst_n),
     .enable     (current_state == STATE_MENU),
     .xpos       (xpos_sync2), 
@@ -200,7 +199,7 @@ end
 
 // Logika spadania przeciwnika
 falling_block_ctrl u_enemy_logic (
-    .clk         (clk),
+    .clk,
     .rst_n       (rst_n),
     .vsync       (vga_tim.vsync),
     .enable      (current_state == STATE_GRA),
@@ -214,11 +213,12 @@ falling_block_ctrl u_enemy_logic (
     .block_color (enemy_color_sig),
     .score_ones   (score_1),           // <-- BRAKOWAŁO TEGO GNIAZDKA
     .score_tens   (score_10),          // <-- BRAKOWAŁO TEGO GNIAZDKA
-    .score_hunds  (score_100)
+    .score_hunds  (score_100),
+    .game_over    (game_over_sig)
 );
 
 draw_score u_draw_score (
-    .clk         (clk),
+    .clk,
     .rst_n       (rst_n),
     .score_ones  (score_1),
     .score_tens  (score_10),
