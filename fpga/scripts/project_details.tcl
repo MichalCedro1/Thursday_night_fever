@@ -31,18 +31,19 @@ set xdc_files {
 
 # Specify SystemVerilog design files location   -- EDIT
 set sv_files {
-    ../rtl/vga_pkg.sv
-    ../rtl/vga_if.sv
-    ../rtl/vga_timing.sv
-    ../rtl/keyboard_ctrl.sv
-    ../rtl/draw_bg.sv
-    ../rtl/draw_rect.sv 
-    ../rtl/top_vga.sv
-    ../rtl/draw_mouse.sv
-    ../rtl/draw_falling_block.sv
-    ../rtl/falling_block_ctrl.sv
-    ../rtl/draw_score.sv
-    ../rtl/font_rom.sv
+    ../rtl/common/vga_pkg.sv
+    ../rtl/common/vga_if.sv
+    ../rtl/video/vga_timing.sv
+    ../rtl/control/keyboard_ctrl.sv
+    ../rtl/video/draw_bg.sv
+    ../rtl/video/draw_rect.sv 
+    ../rtl/top_rtl/top_vga.sv
+    ../rtl/video/draw_falling_block.sv
+    ../rtl/control/falling_block_ctrl.sv
+    ../rtl/video/draw_score.sv
+    ../rtl/memory/font_rom.sv
+    ../rtl/control/game_fsm.sv
+    ../rtl/common/reset_sync.sv
     rtl/top_vga_basys3.sv
     
     ../music/rtl/music_if.sv
@@ -63,11 +64,11 @@ set verilog_files {
 }
 
 # Specify VHDL design files location            -- EDIT
- set vhdl_files {
-    ../rtl/MouseCtl.vhd
-    ../rtl/Ps2Interface.vhd
-    ../rtl/MouseDisplay.vhd
- }
+#set vhdl_files {
+#    ../rtl/MouseCtl.vhd
+#   ../rtl/Ps2Interface.vhd
+#  ../rtl/MouseDisplay.vhd
+# }
 
 # Specify files for a memory initialization     -- EDIT
 # set mem_files {

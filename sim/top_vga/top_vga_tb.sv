@@ -65,7 +65,7 @@ module top_vga_tb;
         .rst_n(rst_n),
         .PS2Clk(ps2_clk_tb),
         .PS2Data(ps2_data_tb),
-        .clk100MHz(clk),
+   //     .clk100MHz(clk),
         .vs(vs),
         .hs(hs),
         .r(r),
@@ -97,15 +97,15 @@ module top_vga_tb;
 
         #(10_000_000); 
 
-        force dut.mouse_xpos = 12'd400; 
-        force dut.mouse_ypos = 12'd300; 
-        force dut.mouse_left = 1'b1;    
+  //      force dut.mouse_xpos = 12'd400; 
+ //       force dut.mouse_ypos = 12'd300; 
+  //      force dut.mouse_left = 1'b1;    
         
         #(100_000); 
         
-        release dut.mouse_left;
-        release dut.mouse_xpos;
-        release dut.mouse_ypos;
+    //    release dut.mouse_left;
+      //  release dut.mouse_xpos;
+     //   release dut.mouse_ypos;
 
         $display("If simulation ends before the testbench");
         $display("completes, use the menu option to run all.");

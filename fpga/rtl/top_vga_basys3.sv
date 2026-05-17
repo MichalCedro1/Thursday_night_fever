@@ -34,7 +34,6 @@ module top_vga_basys3 (
      * Local variables and signals
      */
 
-     wire locked;
      wire clk_65MHz;  
      wire clk_100MHz; 
      wire pclk_mirror;
@@ -131,7 +130,6 @@ module top_vga_basys3 (
      top_vga u_top_vga (
         .clk(clk_65MHz),     
         .rst_n(!btnC),
-        .clk100MHz(clk_100MHz),  
         .PS2Clk(PS2Clk),
         .PS2Data(PS2Data),
         .r(vgaRed),

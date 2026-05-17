@@ -1,8 +1,6 @@
 `timescale 1ns / 1ps
 
 module keyboard_ctrl_tb;
-
-    // Sygnały testowe
     logic clk;
     logic rst_n;
     logic ps2_clk;
@@ -11,7 +9,6 @@ module keyboard_ctrl_tb;
     logic [11:0] xpos;
     logic [11:0] ypos;
 
-    // Instancja testowanego modułu (DUT - Device Under Test)
     keyboard_ctrl uut (
         .clk(clk),
         .rst_n(rst_n),
