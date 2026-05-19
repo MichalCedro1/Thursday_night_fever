@@ -10,19 +10,33 @@ module draw_falling_block (
     vga_if.out vga_out
 );
 
-    localparam BLOCK_SIZE = 11'd60;
+    localparam BLOCK_SIZE = 12'd110;
+
+    logic [11:0] rom_left [0:12099];
+    logic [11:0] rom_right [0:12099];
+
+    initial begin
+        $readmemh("strzalka-w-lewo.hex", rom_left);
+        $readmemh("strzalka-w-prawo.hex", rom_right);
+    end
 
     logic [11:0] rgb_nxt;
+    logic [13:0] pixel_addr;
 
     always_comb begin
         rgb_nxt = vga_in.rgb;
+
+        pixel_addr = ((vga_in.vcount - ypos) * BLOCK_SIZE) + (vga_in.hcount - xpos);
         
         if (active) begin
             if ((vga_in.hcount >= xpos) && (vga_in.hcount < (xpos + BLOCK_SIZE)) &&
                 (vga_in.vcount >= ypos) && (vga_in.vcount < (ypos + BLOCK_SIZE))) begin
                 
-                // MUX koloru w locie: jeśli 1 to niebieski, jeśli 0 to czerwony
-                rgb_nxt = block_color ? 12'h00f : 12'hf00; 
+                if (block_color == 1'b0) begin
+                    rgb_nxt = rom_left[pixel_addr];
+                end else begin
+                    rgb_nxt = rom_right[pixel_addr];
+                end
             end
         end
     end
