@@ -29,7 +29,6 @@ module falling_block_ctrl (
     logic [3:0] block_index;
     logic [3:0] current_speed;
 
-    // --- BEATMAPA (Playlista) ---
     logic [25:0] beatmap [0:9];
     
     always_comb begin
@@ -45,40 +44,33 @@ module falling_block_ctrl (
         beatmap[9] = {10'd10, 11'd600, 4'd10, 1'b1};
     end
 
-    // Kolizja
     logic collision_physical;
     assign collision_physical = (player_x < (block_x + ENEMY_SIZE))  &&
                                 ((player_x + PLAYER_SIZE) > block_x) &&
                                 (player_y < (block_y + ENEMY_SIZE))  &&
                                 ((player_y + PLAYER_SIZE) > block_y);
 
-    // POPRAWKA BŁĘDU NR 1:
     logic action_triggered;
     assign action_triggered = (player_color == block_color) && space_pressed;
 
-    // Obliczanie środka tylko dla osi X (żeby sprawdzić czy gracz stoi równo pod klockiem)
     logic [11:0] player_center_x, block_center_x;
     assign player_center_x = player_x + (PLAYER_SIZE >> 1); 
     assign block_center_x  = block_x + (ENEMY_SIZE >> 1);   
 
     logic [11:0] dist_x;
     assign dist_x = (player_center_x > block_center_x) ? (player_center_x - block_center_x) : (block_center_x - player_center_x);
-
-    // Obliczanie odległości w osi Y (Krawędź do krawędzi!)
+    
     logic [11:0] block_bottom;
-    assign block_bottom = block_y + ENEMY_SIZE; // Dolna krawędź klocka
+    assign block_bottom = block_y + ENEMY_SIZE;
 
-    logic [11:0] edge_dist_y; // Dystans między dołem klocka a górą gracza
+    logic [11:0] edge_dist_y; 
     assign edge_dist_y = (player_y > block_bottom) ? (player_y - block_bottom) : (block_bottom - player_y);
 
-    // STREFY TRAFIEŃ (Hitboxy)
     logic perfect_zone, good_zone;
     
-    // PERFECT: Klocek WŁAŚNIE dotyka gracza (margines 25 pikseli przed i po zderzeniu)
-    assign perfect_zone = (edge_dist_y <= 12'd10) && (dist_x < 12'd40); 
+    assign perfect_zone = collision_physical && (edge_dist_y <= 12'd12); 
     
-    // GOOD: Klocek wszedł już "do środka" gracza (margines do 60 pikseli)
-    assign good_zone    = (edge_dist_y <= 12'd17) && (dist_x < 12'd60);
+    assign good_zone    = collision_physical && !perfect_zone;
 
     always_ff @(posedge clk or negedge rst_n) begin 
         if (!rst_n) begin
@@ -98,15 +90,9 @@ module falling_block_ctrl (
             vsync_prev <= vsync;
             
             if (enable && !game_over) begin
-                
-                // =========================================================
-                // 1. OBSŁUGA AKCJI GRACZA (Wciśnięcie spacji)
-                // =========================================================
-                if (block_active && space_pressed) begin
-                    
+                if (block_active && space_pressed) begin                 
                     if (player_color == block_color) begin
                         if (perfect_zone) begin
-                            // --- PERFECT HIT (+2 punkty) ---
                             block_active <= 1'b0;
                             wait_counter <= '0; 
                             
@@ -123,7 +109,6 @@ module falling_block_ctrl (
                             end
 
                         end else if (good_zone) begin
-                            // --- GOOD HIT (+1 punkt) ---
                             block_active <= 1'b0;
                             wait_counter <= '0; 
                             
@@ -152,9 +137,6 @@ module falling_block_ctrl (
                     end
                 end
 
-                // =========================================================
-                // 2. LOGIKA RUCHU I ZARZĄDZANIA KLOCKAMI (Odświeżanie co klatkę)
-                // =========================================================
                 if (vsync && !vsync_prev) begin
                     if (!block_active) begin
                         if (block_index == TOTAL_BLOCKS) begin
@@ -176,21 +158,17 @@ module falling_block_ctrl (
                         block_y <= block_y + current_speed;
                         
                         if (block_y > 12'd768) begin
-                            // --- MISS: Klocek uciekł z ekranu ---
                             block_active  <= 1'b0;
                             wait_counter  <= '0;
-                            // [MIEJSCE NA DODANIE KARY za przepuszczenie klocka]
                         end
                     end
                 end
 
             end else if (!enable) begin
-                // Reset stanu podczas przebywania w menu (zabezpieczenie przed trzymaniem punktów)
                 block_active  <= 1'b0;
                 wait_counter  <= '0;
                 block_index   <= '0;
                 game_over     <= 1'b0;
-                // Dodajemy czyszczenie wyniku przy wyjściu do Menu, aby nowa gra zaczynała się od zera!
                 score_ones    <= '0;
                 score_tens    <= '0;
                 score_hunds   <= '0;

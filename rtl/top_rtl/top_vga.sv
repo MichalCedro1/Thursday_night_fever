@@ -22,6 +22,8 @@
     input  logic rst_n,  
     inout  wire  PS2Clk,
     inout  wire  PS2Data,
+    input  logic uart_rx_pin,
+    output logic uart_tx_pin,
     output logic vs,
     output logic hs,
     output logic [3:0] r,
@@ -56,6 +58,7 @@
     vga_if vga_bg();
     vga_if vga_rect();
     vga_if vga_falling_out();
+    vga_if vga_game_over();
     vga_if vga_score_out();
 
     /**
@@ -63,7 +66,16 @@
      */
     assign vs = vga_score_out.vsync;
     assign hs = vga_score_out.hsync;
-    assign {r,g,b} = game_over_sig ? 12'h000 : vga_score_out.rgb;
+    assign {r,g,b} = vga_score_out.rgb;
+
+    assign vga_game_over.hcount = vga_falling_out.hcount;
+    assign vga_game_over.hsync  = vga_falling_out.hsync;
+    assign vga_game_over.hblnk  = vga_falling_out.hblnk;
+    assign vga_game_over.vcount = vga_falling_out.vcount;
+    assign vga_game_over.vsync  = vga_falling_out.vsync;
+    assign vga_game_over.vblnk  = vga_falling_out.vblnk;
+
+    assign vga_game_over.rgb    = game_over_sig ? 12'h000 : vga_falling_out.rgb;
 
     /**
      * Instancje modułów
@@ -149,14 +161,49 @@
         .game_over    (game_over_sig)
     );
 
-    draw_score u_draw_score (
-        .clk         (clk),
-        .rst_n       (rst_n_65),
-        .score_ones  (score_1),
-        .score_tens  (score_10),
-        .score_hunds (score_100),
-        .vga_in      (vga_falling_out), 
-        .vga_out     (vga_score_out)    
+    // --- KOMUNIKACJA UART ---
+    logic [7:0] tx_data, rx_data;
+    logic tx_start, tx_busy, rx_ready;
+
+    uart_tx u_tx (.clk(clk), .rst_n(rst_n_65), .tx_data(tx_data), .tx_start(tx_start), .tx(uart_tx_pin), .tx_busy(tx_busy));
+    uart_rx u_rx (.clk(clk), .rst_n(rst_n_65), .rx(uart_rx_pin), .rx_data(rx_data), .rx_ready(rx_ready));
+
+    logic [3:0] opp_1, opp_10, opp_100;
+    logic opp_ready;
+    logic [1:0] match_result;
+
+    multiplayer_ctrl u_mp_ctrl (
+        .clk(clk), .rst_n(rst_n_65), 
+        .game_enable(current_state == STATE_GRA),
+        .game_over(game_over_sig),
+        .my_score_ones(score_1), .my_score_tens(score_10), .my_score_hunds(score_100),
+        .rx_data(rx_data), .rx_ready(rx_ready), .tx_data(tx_data), .tx_start(tx_start), .tx_busy(tx_busy),
+        .opp_score_ones(opp_1), .opp_score_tens(opp_10), .opp_score_hunds(opp_100),
+        .opp_score_ready(opp_ready), .match_result(match_result)
+    );
+
+
+    logic [11:0] my_final_color;
+    always_comb begin
+        if (!game_over_sig)        my_final_color = 12'hFFF; 
+        else if (match_result==1)  my_final_color = 12'h0F0; 
+        else if (match_result==2)  my_final_color = 12'hF00; 
+        else                       my_final_color = 12'hFF0;
+    end
+
+    vga_if vga_my_score_out();
+    draw_score #( .X_POS(16), .Y_POS(16) ) u_draw_my_score (
+        .clk(clk), .rst_n(rst_n_65),
+        .score_ones(score_1), .score_tens(score_10), .score_hunds(score_100),
+        .text_color(my_final_color), .vga_in(vga_game_over), .vga_out(vga_my_score_out)
+    );
+
+
+    draw_score #( .X_POS(512), .Y_POS(16) ) u_draw_opp_score (
+        .clk(clk), .rst_n(rst_n_65),
+        .score_ones(opp_1), .score_tens(opp_10), .score_hunds(opp_100),
+        .text_color(12'hFFF), 
+        .vga_in(vga_my_score_out), .vga_out(vga_score_out)
     );
 
 endmodule

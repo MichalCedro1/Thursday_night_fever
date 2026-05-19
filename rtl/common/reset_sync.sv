@@ -1,7 +1,7 @@
 module reset_sync (
     input  logic clk,
-    input  logic async_rst_n, // Fizyczny przycisk (zanegowany)
-    output logic sync_rst_n   // Bezpieczny reset dla reszty modułów
+    input  logic async_rst_n,
+    output logic sync_rst_n
 );
 
     logic [1:0] sync_reg;

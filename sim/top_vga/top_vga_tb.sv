@@ -64,7 +64,7 @@ module top_vga_tb;
         .clk(clk),
         .rst_n(rst_n),
         .PS2Clk(ps2_clk_tb),
-        .PS2Data(ps2_data_tb),
+  //      .PS2Data(ps2_data_tb),
    //     .clk100MHz(clk),
         .vs(vs),
         .hs(hs),

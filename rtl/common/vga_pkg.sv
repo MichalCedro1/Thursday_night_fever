@@ -15,13 +15,13 @@
     
     localparam HOR_TOTAL_TIME  = 1344;
     localparam HOR_BLANK_START = 1024;
-    localparam HOR_BLANK_TIME  = 320; // 1344 - 1024
+    localparam HOR_BLANK_TIME  = 320;
     localparam HOR_SYNC_START  = 1048;
     localparam HOR_SYNC_TIME   = 136;
     
     localparam VER_TOTAL_TIME  = 806;
     localparam VER_BLANK_START = 768;
-    localparam VER_BLANK_TIME  = 38;  // 806 - 768
+    localparam VER_BLANK_TIME  = 38;
     localparam VER_SYNC_START  = 771;
     localparam VER_SYNC_TIME   = 6;
     localparam COLOUR          = 12'h8_0_8;

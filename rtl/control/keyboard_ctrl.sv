@@ -12,14 +12,13 @@ module keyboard_ctrl (
 
 // 1. Synchronizacja sygnałów wejściowych (przeciwdziałanie metastabilności)
 logic [1:0] clk_sync;
-logic [2:0] ps2_data_sync; // Używamy 3 bitów dla kompatybilności z sekcją 3
+logic [2:0] ps2_data_sync;
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
         clk_sync      <= 2'b11;
         ps2_data_sync <= 3'b111;
     end else begin
-        // Przepuszczamy sygnały przez 2 przerzutniki
         clk_sync      <= {clk_sync[0], ps2_clk};
         ps2_data_sync <= {ps2_data_sync[1:0], ps2_data};
     end
@@ -36,20 +35,16 @@ always_ff @(posedge clk or negedge rst_n) begin
         ps2_clk_clean      <= 1'b1;
         ps2_clk_clean_prev <= 1'b1;
     end else begin
-        // Zapisujemy poprzedni stan oczyszczonego zegara do detekcji zbocza
         ps2_clk_clean_prev <= ps2_clk_clean;
 
-        // Sprawdzamy, czy zsynchronizowany sygnał z pinu różni się od naszego "czystego"
         if (clk_sync[1] != ps2_clk_clean) begin
             filter_cnt <= filter_cnt + 1'b1;
             
-            // Kiedy licznik doliczy do 500 (ok. 7.7 mikrosekundy przy 65 MHz) sygnał jest uznany za stabilny
             if (filter_cnt == 10'd500) begin
                 ps2_clk_clean <= clk_sync[1];
                 filter_cnt    <= '0;
             end
         end else begin
-            // Sygnał wrócił do wartości początkowej przed odliczeniem (to był szum!)
             filter_cnt <= '0;
         end
     end
@@ -148,10 +143,10 @@ end
             vsync_prev <= vsync;
             
             if (vsync && !vsync_prev) begin
-                if (a_pressed && (xpos > 12'd0)) begin
-                    xpos <= xpos - 12'd5;
-                end else if (d_pressed && (xpos < 12'd920)) begin
-                    xpos <= xpos + 12'd5;
+                if (a_pressed && (xpos >= 12'd12)) begin
+                    xpos <= xpos - 12'd12;
+                end else if (d_pressed && (xpos <= 12'd912)) begin
+                    xpos <= xpos + 12'd12;
                 end
             end
         end

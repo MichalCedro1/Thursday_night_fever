@@ -12,20 +12,24 @@
  * Top level synthesizable module including the project top and all the FPGA-referred modules.
  */
 
-module top_vga_basys3 (
-        input  wire clk,
-        input  wire btnC,
-        inout  wire PS2Clk,
-        inout  wire PS2Data,
-        output wire Vsync,
-        output wire Hsync,
-        output wire [3:0] vgaRed,
-        output wire [3:0] vgaGreen,
-        output wire [3:0] vgaBlue,
-        output wire JA1,
-        output wire speaker,
-        output wire amp_en
-    );
+ module top_vga_basys3 (
+    input  wire clk,
+    input  wire btnC,
+    inout  wire PS2Clk,
+    inout  wire PS2Data,
+    output wire Vsync,
+    output wire Hsync,
+    output wire [3:0] vgaRed,
+    output wire [3:0] vgaGreen,
+    output wire [3:0] vgaBlue,
+    output wire JA1,
+    
+    input  wire uart_rx_pin,
+    output wire uart_tx_pin,
+    
+    output wire speaker,
+    output wire amp_en
+);
 
     timeunit 1ns;
     timeprecision 1ps;
@@ -107,14 +111,14 @@ module top_vga_basys3 (
 */
 
     clk_wiz_0 u_clk_wiz (
-        .clk_in1 (clk),          // Wejście: fizyczny pin W5 (100 MHz)
-        .clk_out1(clk_65MHz),    // Wyjście 1: 65 MHz do VGA
-        .clk_out2(clk_100MHz)  // Wyjście 2: 100 MHz do muzyki i myszki
+        .clk_in1 (clk),       
+        .clk_out1(clk_65MHz),  
+        .clk_out2(clk_100MHz)  
     );
     
     ODDR pclk_oddr (
         .Q(pclk_mirror),
-        .C(clk_65MHz),           // ZMIANA: Zmieniamy z pclk na clk_65MHz
+        .C(clk_65MHz),        
         .CE(1'b1),
         .D1(1'b1),
         .D2(1'b0),
@@ -124,14 +128,17 @@ module top_vga_basys3 (
 
 
     /**
-     *  Project functional top module
+     * Project functional top module
      */
-
-     top_vga u_top_vga (
+    top_vga u_top_vga (
         .clk(clk_65MHz),     
         .rst_n(!btnC),
         .PS2Clk(PS2Clk),
         .PS2Data(PS2Data),
+        
+        .uart_rx_pin(uart_rx_pin),
+        .uart_tx_pin(uart_tx_pin),
+        
         .r(vgaRed),
         .g(vgaGreen),
         .b(vgaBlue),
@@ -139,7 +146,6 @@ module top_vga_basys3 (
         .vs(Vsync)
     );
 
-    //Polifonia
 
     assign amp_en = 1'b1;
 
