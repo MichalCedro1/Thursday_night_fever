@@ -29,6 +29,13 @@ module draw_bg
      */
 
     logic [11:0] rgb_nxt;
+    logic [23:0] pixel_addr;
+    localparam BG_PIXELS = HOR_PIXELS * VER_PIXELS;
+    logic [11:0] rom_bg [0:BG_PIXELS-1];
+
+    initial begin
+        $readmemh("bg.hex", "rom_bg");
+    end
 
 
     /**
@@ -56,6 +63,8 @@ module draw_bg
     end
 
         always_comb begin : bg_comb_blk
+            pixel_addr = (vga_in.vcount * HOR_PIXELS) + vga_in.hcount;
+
             if (vga_in.vblnk || vga_in.hblnk) begin           
                 rgb_nxt = 12'h0_0_0;                      
             end else begin   
@@ -73,7 +82,7 @@ module draw_bg
                         (vga_in.vcount >= 250 && vga_in.vcount <= 350)) begin
                         rgb_nxt = 12'h0_f_0;
                     end else begin
-                        rgb_nxt = 12'h2_2_2;
+                        rgb_nxt = rom_bg[pixel_addr];
                     end
 
                 end else begin
@@ -87,7 +96,7 @@ module draw_bg
                     else if (vga_in.hcount == HOR_PIXELS - 1)               
                         rgb_nxt = 12'h0_0_f;
                 else                                   
-                    rgb_nxt = 12'hf_c_c;
+                    rgb_nxt = rom_bg[pixel_addr];
             end
         end
     end
