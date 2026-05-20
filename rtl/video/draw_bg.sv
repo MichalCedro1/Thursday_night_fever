@@ -34,7 +34,7 @@ module draw_bg
     logic [11:0] rom_bg [0:BG_PIXELS-1];
 
     initial begin
-        $readmemh("bg.hex", "rom_bg");
+        $readmemh("bg.hex", rom_bg);
     end
 
 

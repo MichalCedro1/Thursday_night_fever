@@ -11,8 +11,8 @@ module tone_generator (
 
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            counter <= counter_nxt;
-            speaker <= speaker_nxt;
+            counter <= 0;
+            speaker <= 1'b0;
         end else begin
             counter <= counter_nxt;
             speaker <= speaker_nxt;
