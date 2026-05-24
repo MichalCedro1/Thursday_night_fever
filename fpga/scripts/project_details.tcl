@@ -54,10 +54,9 @@ set sv_files {
     ../music/rtl/tone_generator.sv
     ../music/rtl/audio_pwm.sv
 
-    ../music/rtl/music_rom_melodia.sv
-    ../music/rtl/music_rom_bas.sv
-    ../music/rtl/music_rom_hawajska.sv
-    ../music/rtl/music_rom_gitara1.sv
+    ../music/rom/music_rom_melodia.sv
+    ../music/rom/music_rom_bas.sv
+    ../music/rom/music_rom_gitara1.sv
 }
 
 # Specify Verilog design files location         -- EDIT

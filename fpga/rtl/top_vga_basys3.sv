@@ -143,21 +143,22 @@
         .g(vgaGreen),
         .b(vgaBlue),
         .hs(Hsync),
-        .vs(Vsync)
+        .vs(Vsync),
+        .current_song_id(current_song_id)
     );
 
 
     assign amp_en = 1'b1;
 
+    wire [1:0] current_song_id;
+
     music_if m_if_1();
     music_if m_if_2();
     music_if m_if_3();
-    music_if m_if_4();
 
-    assign m_if_1.song_id = 2'b00;
-    assign m_if_2.song_id = 2'b00;
-    assign m_if_3.song_id = 2'b00;
-    assign m_if_4.song_id = 2'b00;
+    assign m_if_1.song_id = current_song_id;
+    assign m_if_2.song_id = current_song_id;
+    assign m_if_3.song_id = current_song_id;
 
     logic spk1, spk2, spk3;
 

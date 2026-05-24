@@ -7,7 +7,8 @@ module keyboard_ctrl (
     output logic [11:0] xpos,
     output logic [11:0] ypos,
     output logic        space_pressed,
-    output logic        player_color
+    output logic        player_color,
+    output logic [1:0]  current_song_id
 );
 
 // 1. Synchronizacja sygnałów wejściowych (przeciwdziałanie metastabilności)
@@ -104,6 +105,7 @@ always_ff @(posedge clk or negedge rst_n) begin
         a_pressed     <= 1'b0;
         d_pressed     <= 1'b0;
         space_pressed <= 1'b0;
+        current_song_id <= 2'b00;
     end else begin
         space_pressed <= 1'b0; 
 
@@ -124,6 +126,17 @@ always_ff @(posedge clk or negedge rst_n) begin
                 is_break <= 1'b0;
             end else if (scan_code == 8'h29) begin 
                 if (!is_break) space_pressed <= 1'b1; 
+                is_break <= 1'b0;
+            end else begin
+                is_break <= 1'b0;
+            end else if (scan_code == 8'h16) begin // Klawisz '1'
+                if (!is_break) current_song_id <= 2'b00;
+                is_break <= 1'b0;
+            end else if (scan_code == 8'h1E) begin // Klawisz '2'
+                if (!is_break) current_song_id <= 2'b01;
+                is_break <= 1'b0;
+            end else if (scan_code == 8'h26) begin // Klawisz '3'
+                if (!is_break) current_song_id <= 2'b10;
                 is_break <= 1'b0;
             end else begin
                 is_break <= 1'b0;

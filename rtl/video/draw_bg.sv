@@ -29,14 +29,6 @@ module draw_bg
      */
 
     logic [11:0] rgb_nxt;
-    logic [23:0] pixel_addr;
-    localparam BG_PIXELS = HOR_PIXELS * VER_PIXELS;
-    logic [11:0] rom_bg [0:BG_PIXELS-1];
-
-    initial begin
-        $readmemh("bg.hex", rom_bg);
-    end
-
 
     /**
      * Internal logic
@@ -96,7 +88,7 @@ module draw_bg
                     else if (vga_in.hcount == HOR_PIXELS - 1)               
                         rgb_nxt = 12'h0_0_f;
                 else                                   
-                    rgb_nxt = rom_bg[pixel_addr];
+                    rgb_nxt = 12'h0_0_0;
             end
         end
     end
