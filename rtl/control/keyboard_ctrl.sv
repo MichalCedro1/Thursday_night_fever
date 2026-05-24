@@ -127,8 +127,6 @@ always_ff @(posedge clk or negedge rst_n) begin
             end else if (scan_code == 8'h29) begin 
                 if (!is_break) space_pressed <= 1'b1; 
                 is_break <= 1'b0;
-            end else begin
-                is_break <= 1'b0;
             end else if (scan_code == 8'h16) begin // Klawisz '1'
                 if (!is_break) current_song_id <= 2'b00;
                 is_break <= 1'b0;

@@ -28,7 +28,8 @@
     output logic hs,
     output logic [3:0] r,
     output logic [3:0] g,
-    output logic [3:0] b
+    output logic [3:0] b,
+    output logic [1:0] current_song_id
 );
     timeunit 1ns;
     timeprecision 1ps;
@@ -117,7 +118,8 @@
         .xpos          (key_xpos),
         .ypos          (key_ypos),
         .player_color  (player_color_sig),
-        .space_pressed (space_pressed_sig)
+        .space_pressed (space_pressed_sig),
+        .current_song_id(current_song_id)
     );
 
     draw_rect u_draw_rect (

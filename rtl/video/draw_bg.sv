@@ -30,6 +30,7 @@ module draw_bg
 
     logic [11:0] rgb_nxt;
 
+
     /**
      * Internal logic
      */
@@ -55,8 +56,6 @@ module draw_bg
     end
 
         always_comb begin : bg_comb_blk
-            pixel_addr = (vga_in.vcount * HOR_PIXELS) + vga_in.hcount;
-
             if (vga_in.vblnk || vga_in.hblnk) begin           
                 rgb_nxt = 12'h0_0_0;                      
             end else begin   
@@ -74,7 +73,7 @@ module draw_bg
                         (vga_in.vcount >= 250 && vga_in.vcount <= 350)) begin
                         rgb_nxt = 12'h0_f_0;
                     end else begin
-                        rgb_nxt = rom_bg[pixel_addr];
+                        rgb_nxt = 12'h0_0_0;
                     end
 
                 end else begin
