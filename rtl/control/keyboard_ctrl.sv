@@ -96,48 +96,48 @@ assign ps2_clk_fall = (ps2_clk_clean_prev == 1'b1) && (ps2_clk_clean == 1'b0);
 
 // 4. Logika wciskania (Zmieniona na ruch ciągły)
 logic is_break;
+logic is_extended;
 logic a_pressed;
 logic d_pressed;
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
-        is_break      <= 1'b0;
-        a_pressed     <= 1'b0;
-        d_pressed     <= 1'b0;
-        space_pressed <= 1'b0;
+        is_break        <= 1'b0;
+        is_extended     <= 1'b0;
+        a_pressed       <= 1'b0;
+        d_pressed       <= 1'b0;
+        space_pressed   <= 1'b0;
         current_song_id <= 2'b00;
     end else begin
         space_pressed <= 1'b0; 
 
         if (scan_code_ready) begin
-            if (scan_code == 8'hF0) begin
+            if (scan_code == 8'hE0) begin
+                is_extended <= 1'b1;
+            end else if (scan_code == 8'hF0) begin
                 is_break <= 1'b1;
-            end else if (scan_code == 8'h1C) begin 
-                if (!is_break) begin
-                    a_pressed <= 1'b1; 
-                    d_pressed <= 1'b0; 
-                end
-                is_break <= 1'b0;
-            end else if (scan_code == 8'h23) begin 
-                if (!is_break) begin
-                    d_pressed <= 1'b1;
-                    a_pressed <= 1'b0; 
-                end
-                is_break <= 1'b0;
-            end else if (scan_code == 8'h29) begin 
-                if (!is_break) space_pressed <= 1'b1; 
-                is_break <= 1'b0;
-            end else if (scan_code == 8'h16) begin // Klawisz '1'
-                if (!is_break) current_song_id <= 2'b00;
-                is_break <= 1'b0;
-            end else if (scan_code == 8'h1E) begin // Klawisz '2'
-                if (!is_break) current_song_id <= 2'b01;
-                is_break <= 1'b0;
-            end else if (scan_code == 8'h26) begin // Klawisz '3'
-                if (!is_break) current_song_id <= 2'b10;
-                is_break <= 1'b0;
             end else begin
-                is_break <= 1'b0;
+                if (scan_code == 8'h1C || (scan_code == 8'h6B && is_extended)) begin
+                    if (!is_break) begin
+                        a_pressed <= 1'b1; 
+                        d_pressed <= 1'b0; 
+                    end
+                end else if (scan_code == 8'h23 || (scan_code == 8'h74 && is_extended)) begin
+                    if (!is_break) begin
+                        d_pressed <= 1'b1;
+                        a_pressed <= 1'b0; 
+                    end
+                end else if (scan_code == 8'h29) begin 
+                    if (!is_break) space_pressed <= 1'b1; 
+                end else if (scan_code == 8'h16) begin 
+                    if (!is_break) current_song_id <= 2'b00;
+                end else if (scan_code == 8'h1E) begin 
+                    if (!is_break) current_song_id <= 2'b01;
+                end else if (scan_code == 8'h26) begin 
+                    if (!is_break) current_song_id <= 2'b10;
+                end
+                is_break    <= 1'b0;
+                is_extended <= 1'b0;
             end
         end
     end

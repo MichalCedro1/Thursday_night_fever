@@ -54,6 +54,7 @@
     logic        space_pressed_sig;
     logic [3:0]  score_1, score_10, score_100;
     logic        player_color_sig, enemy_color_sig;
+    logic        launch_game_sig;
 
     vga_if vga_tim(); 
     vga_if vga_bg();
@@ -96,6 +97,7 @@
         .clk              (clk),
         .rst_n            (rst_n_65),
         .mouse_left_click (space_pressed_sig),
+        .launch_game      (launch_game_sig),
         .mouse_x          (12'd400),          
         .mouse_y          (12'd300),          
         .current_state    (current_state)
@@ -163,7 +165,6 @@
         .game_over    (game_over_sig)
     );
 
-    // --- KOMUNIKACJA UART ---
     logic [7:0] tx_data, rx_data;
     logic tx_start, tx_busy, rx_ready;
 
@@ -175,15 +176,17 @@
     logic [1:0] match_result;
 
     multiplayer_ctrl u_mp_ctrl (
-        .clk(clk), .rst_n(rst_n_65), 
-        .game_enable(current_state == STATE_GRA),
-        .game_over(game_over_sig),
-        .my_score_ones(score_1), .my_score_tens(score_10), .my_score_hunds(score_100),
-        .rx_data(rx_data), .rx_ready(rx_ready), .tx_data(tx_data), .tx_start(tx_start), .tx_busy(tx_busy),
-        .opp_score_ones(opp_1), .opp_score_tens(opp_10), .opp_score_hunds(opp_100),
-        .opp_score_ready(opp_ready), .match_result(match_result)
-    );
-
+    .clk(clk), .rst_n(rst_n_65), 
+    .game_enable(current_state == STATE_GRA),
+    .game_over(game_over_sig),
+    .my_score_ones(score_1), .my_score_tens(score_10), .my_score_hunds(score_100),
+    .space_pressed(space_pressed_sig),     
+    .rx_data(rx_data), .rx_ready(rx_ready), 
+    .tx_data(tx_data), .tx_start(tx_start), .tx_busy(tx_busy),
+    .opp_score_ones(opp_1), .opp_score_tens(opp_10), .opp_score_hunds(opp_100),
+    .opp_score_ready(opp_ready), .match_result(match_result),
+    .launch_game(launch_game_sig)        
+);
 
     logic [11:0] my_final_color;
     always_comb begin
