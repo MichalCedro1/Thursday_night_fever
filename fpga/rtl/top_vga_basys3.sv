@@ -156,7 +156,7 @@
     music_if m_if_2(.song_id(current_song_id));
     music_if m_if_3(.song_id(current_song_id));
 
-    logic spk1, spk2, spk3;
+    logic spk1, spk2;
 
     music_rom_melodia u_rom_1 (.bus(m_if_1.rom));
     music_controller u_ctrl_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.controller));
@@ -166,13 +166,9 @@
     music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.controller));
     tone_generator u_tone_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
 
-    music_rom_gitara1 u_rom_3 (.bus(m_if_3.rom));
-    music_controller u_ctrl_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.controller));
-    tone_generator u_tone_3 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_3.tone_gen), .speaker(spk3));
-
     logic [2:0] audio_mix;
 
-    assign audio_mix = spk1 + spk2 +spk3;
+    assign audio_mix = spk1 + spk2;
 
     audio_pwm u_mixer (
         .clk(clk_100MHz),
