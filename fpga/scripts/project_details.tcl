@@ -41,6 +41,8 @@ set sv_files {
     ../rtl/video/draw_falling_block.sv
     ../rtl/control/falling_block_ctrl.sv
     ../rtl/video/draw_score.sv
+    ../rtl/video/highscore_board.sv
+    ../rtl/video/draw_text_line.sv
     ../rtl/communication/uart_rx.sv
     ../rtl/communication/uart_tx.sv
     ../rtl/control/multiplayer_ctrl.sv

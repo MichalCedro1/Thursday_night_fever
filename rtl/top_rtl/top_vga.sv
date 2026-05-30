@@ -55,6 +55,7 @@
     logic [3:0]  score_1, score_10, score_100;
     logic        player_color_sig, enemy_color_sig;
     logic        launch_game_sig;
+    
 
     vga_if vga_tim(); 
     vga_if vga_bg();
@@ -62,13 +63,14 @@
     vga_if vga_falling_out();
     vga_if vga_game_over();
     vga_if vga_score_out();
+    vga_if vga_final_out();
 
     /**
      * Wyjścia na ekran
      */
-    assign vs = vga_score_out.vsync;
-    assign hs = vga_score_out.hsync;
-    assign {r,g,b} = vga_score_out.rgb;
+    assign vs = vga_final_out.vsync;
+    assign hs = vga_final_out.hsync;
+    assign {r,g,b} = vga_final_out.rgb;
 
     assign vga_game_over.hcount = vga_falling_out.hcount;
     assign vga_game_over.hsync  = vga_falling_out.hsync;
@@ -199,6 +201,7 @@
     vga_if vga_my_score_out();
     draw_score #( .X_POS(16), .Y_POS(16) ) u_draw_my_score (
         .clk(clk), .rst_n(rst_n_65),
+        .game_active(current_state != STATE_MENU),
         .score_ones(score_1), .score_tens(score_10), .score_hunds(score_100),
         .text_color(my_final_color), .vga_in(vga_game_over), .vga_out(vga_my_score_out)
     );
@@ -206,9 +209,31 @@
 
     draw_score #( .X_POS(512), .Y_POS(16) ) u_draw_opp_score (
         .clk(clk), .rst_n(rst_n_65),
+        .game_active(current_state != STATE_MENU),
         .score_ones(opp_1), .score_tens(opp_10), .score_hunds(opp_100),
         .text_color(12'hFFF), 
         .vga_in(vga_my_score_out), .vga_out(vga_score_out)
+    );
+
+    highscore_board u_highscores (
+        .clk(clk),
+        .rst_n(rst_n_65),
+        .game_over_sig(game_over_sig),
+        .score_ones(score_1), .score_tens(score_10), .score_hunds(score_100),
+        .show_board(current_state == STATE_MENU),
+        .vga_in(vga_score_out),
+        .vga_out(vga_top3_out)
+    );
+
+    draw_text_line #( 
+        .X_POS(320), .Y_POS(450), .TEXT_LEN(20), .TEXT_CONTENT("PRESS ENTER TO START") 
+    ) u_start_msg (
+        .clk(clk), 
+        .rst_n(rst_n_65), 
+        .enable(current_state == STATE_MENU), 
+        .color(12'hFFF),
+        .vga_in(vga_top3_out), 
+        .vga_out(vga_final_out)
     );
 
 endmodule

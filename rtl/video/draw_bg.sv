@@ -68,11 +68,7 @@ module draw_bg
                         rgb_nxt = 12'h0_f_0;                                
                     else if (vga_in.hcount == HOR_PIXELS - 1)               
                         rgb_nxt = 12'h0_0_f;
-                    
-                    else if ((vga_in.hcount >= 300 && vga_in.hcount <= 500) && 
-                        (vga_in.vcount >= 250 && vga_in.vcount <= 350)) begin
-                        rgb_nxt = 12'h0_f_0;
-                    end else begin
+                    else begin
                         rgb_nxt = 12'h0_0_0;
                     end
 
