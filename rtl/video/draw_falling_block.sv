@@ -16,8 +16,8 @@ module draw_falling_block (
     (* rom_style = "block" *) logic [11:0] rom_right [0:8099];
 
     initial begin
-        $readmemh("strzalka-lewo.hex", rom_left);
-        $readmemh("strzalka-prawo.hex", rom_right);
+        $readmemh("../rtl/memory/strzalka-lewo.hex", rom_left);
+        $readmemh("../rtl/memory/strzalka-prawo.hex", rom_right);
     end
 
     logic [13:0] pixel_addr;

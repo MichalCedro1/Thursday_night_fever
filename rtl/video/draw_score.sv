@@ -4,6 +4,8 @@ module draw_score #(
 )(
     input logic clk,
     input logic rst_n,
+
+    input logic game_active,
     
     input logic [3:0]  score_ones,
     input logic [3:0]  score_tens,
@@ -40,7 +42,7 @@ module draw_score #(
 
     always_comb begin
         rgb_nxt = vga_delayed.rgb;
-        if (is_score_area && pixel_bit) begin
+        if (is_score_area && pixel_bit && game_active) begin
             rgb_nxt = text_color;
         end
     end

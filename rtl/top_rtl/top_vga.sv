@@ -63,6 +63,7 @@
     vga_if vga_falling_out();
     vga_if vga_game_over();
     vga_if vga_score_out();
+    vga_if vga_top3_out();
     vga_if vga_final_out();
 
     /**
@@ -215,6 +216,7 @@
         .vga_in(vga_my_score_out), .vga_out(vga_score_out)
     );
 
+
     highscore_board u_highscores (
         .clk(clk),
         .rst_n(rst_n_65),
@@ -226,7 +228,11 @@
     );
 
     draw_text_line #( 
-        .X_POS(320), .Y_POS(450), .TEXT_LEN(20), .TEXT_CONTENT("PRESS ENTER TO START") 
+        .X_POS(192), 
+        .Y_POS(200), 
+        .TEXT_LEN(20), 
+        .TEXT_CONTENT("PRESS SPACE TO START"),
+        .SCALE(4)
     ) u_start_msg (
         .clk(clk), 
         .rst_n(rst_n_65), 

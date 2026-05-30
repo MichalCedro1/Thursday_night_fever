@@ -58,7 +58,6 @@ set sv_files {
 
     ../music/rom/music_rom_melodia.sv
     ../music/rom/music_rom_bas.sv
-    ../music/rom/music_rom_gitara1.sv
 }
 
 # Specify Verilog design files location         -- EDIT
