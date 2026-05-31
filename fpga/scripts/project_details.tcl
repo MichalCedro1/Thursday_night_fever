@@ -74,6 +74,9 @@ set verilog_files {
 # }
 
 # Specify files for a memory initialization     -- EDIT
-# set mem_files {
-#    path/to/file.data
-# }
+set mem_files {
+    ../rtl/memory/gabrysia.hex
+    ../rtl/memory/michal.hex
+    ../rtl/memory/strzalka-lewo.hex
+    ../rtl/memory/strzalka-prawo.hex
+}
