@@ -10,7 +10,7 @@ module draw_falling_block (
     vga_if.out vga_out
 );
 
-    localparam BLOCK_SIZE = 12'd90;
+    localparam BLOCK_SIZE = 12'd70;
 
     (* rom_style = "block" *) logic [11:0] rom_left [0:8099]; 
     (* rom_style = "block" *) logic [11:0] rom_right [0:8099];

@@ -21,7 +21,7 @@ module falling_block_ctrl (
 );
 
     localparam PLAYER_SIZE = 12'd100; 
-    localparam ENEMY_SIZE  = 12'd60;
+    localparam ENEMY_SIZE  = 12'd70;
     localparam TOTAL_BLOCKS = 4'd10;
 
     logic vsync_prev;

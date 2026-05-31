@@ -149,7 +149,7 @@ end
         if (!rst_n) begin
             vsync_prev <= 1'b0;
             xpos <= 12'd350; 
-            ypos <= 12'd670;
+            ypos <= 12'd468;
         end else begin
             vsync_prev <= vsync;
             
