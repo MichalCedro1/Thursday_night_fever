@@ -10,10 +10,29 @@ module draw_rect (
     vga_if.out vga_out
 );
 
-    localparam RECT_WIDTH  = 11'd100;
-    localparam RECT_HEIGHT = 11'd100;
+    localparam RECT_WIDTH  = 11'd150;
+    localparam RECT_HEIGHT = 11'd300;
+
+    (* rom_style = "block" *) logic [11:0] rom_player [0:44999];
+
+    initial begin
+        //$readmemh("../rtl/memory/gabrysia.hex", rom_player);
+        $readmemh("../rtl/memory/michal.hex", rom_player);
+    end
 
     logic [11:0] rgb_nxt;
+    logic [15:0] pixel_addr;   
+    logic [11:0] sprite_pixel;
+
+    logic [11:0] x_offset;
+    logic [11:0] y_offset;
+    logic [11:0] mapped_x;
+
+    assign x_offset = vga_in.hcount - xpos;
+    assign y_offset = vga_in.vcount - ypos;
+
+    assign mapped_x = player_color_bit ? x_offset : (RECT_WIDTH - 1'b1 - x_offset);
+    assign pixel_addr = y_offset * RECT_WIDTH + mapped_x;
 
     always_comb begin
         rgb_nxt = vga_in.rgb;
@@ -21,8 +40,11 @@ module draw_rect (
             if ((vga_in.hcount >= xpos) && (vga_in.hcount < (xpos + RECT_WIDTH)) &&
                 (vga_in.vcount >= ypos) && (vga_in.vcount < (ypos + RECT_HEIGHT))) begin
                 
-                // MUX koloru z klawiatury
-                rgb_nxt = player_color_bit ? 12'h00F : 12'hF00; 
+                sprite_pixel = rom_player[pixel_addr];                
+                
+                if (sprite_pixel != 12'h000) begin
+                    rgb_nxt = sprite_pixel;
+                end 
             end
         end
     end
