@@ -27,8 +27,9 @@
     localparam COLOUR          = 12'h8_0_8;
   
     typedef enum logic {
-        STATE_MENU = 1'b0,
-        STATE_GRA  = 1'b1
+        STATE_MENU,
+        STATE_GRA,
+        STATE_GAMEOVER
     } game_state_t;
     
     endpackage

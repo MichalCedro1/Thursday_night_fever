@@ -1,8 +1,8 @@
 from PIL import Image
 
 # 1. Podaj nazwę swojego pliku. Może to być .png, .jpg, lub .bmp
-PLIK_WEJSCIOWY = 'strzalka-lewo.png' 
-PLIK_WYJSCIOWY = 'strzalka-lewo.hex'
+PLIK_WEJSCIOWY = 'strzalka-prawo.png' 
+PLIK_WYJSCIOWY = 'strzalka-prawo.hex'
 
 # Docelowe wymiary dla FPGA
 SZEROKOSC = 70

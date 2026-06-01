@@ -101,6 +101,7 @@
         .rst_n            (rst_n_65),
         .mouse_left_click (space_pressed_sig),
         .launch_game      (launch_game_sig),
+        .game_over_flag   (game_over_sig),
         .mouse_x          (12'd400),          
         .mouse_y          (12'd300),          
         .current_state    (current_state)
@@ -217,6 +218,9 @@
     );
 
 
+    vga_if vga_start_out(); 
+    vga_if vga_go1_out();
+
     highscore_board u_highscores (
         .clk(clk),
         .rst_n(rst_n_65),
@@ -239,6 +243,36 @@
         .enable(current_state == STATE_MENU), 
         .color(12'hFFF),
         .vga_in(vga_top3_out), 
+        .vga_out(vga_start_out)
+    );
+
+    draw_text_line #( 
+        .X_POS(368), 
+        .Y_POS(256), 
+        .TEXT_LEN(9), 
+        .SCALE(4), 
+        .TEXT_CONTENT("GAME OVER") 
+    ) u_go_msg (
+        .clk(clk), 
+        .rst_n(rst_n_65), 
+        .enable(current_state == STATE_GAMEOVER), 
+        .color(12'hFFF),
+        .vga_in(vga_start_out),
+        .vga_out(vga_go1_out)
+    );
+
+    draw_text_line #( 
+        .X_POS(424), 
+        .Y_POS(416), 
+        .TEXT_LEN(22), 
+        .SCALE(1), 
+        .TEXT_CONTENT("PRESS SPACE TO RESTART") 
+    ) u_go_restart_msg (
+        .clk(clk), 
+        .rst_n(rst_n_65), 
+        .enable(current_state == STATE_GAMEOVER), 
+        .color(12'hFFF),
+        .vga_in(vga_go1_out), 
         .vga_out(vga_final_out)
     );
 
