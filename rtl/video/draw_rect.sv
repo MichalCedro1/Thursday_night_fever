@@ -16,8 +16,8 @@ module draw_rect (
     (* rom_style = "block" *) logic [11:0] rom_player [0:44999];
 
     initial begin
-        //$readmemh("gabrysia.hex", rom_player);
-        $readmemh("michal.hex", rom_player);
+        $readmemh("gabrysia.hex", rom_player);
+        //$readmemh("michal.hex", rom_player);
     end
 
     logic [11:0] rgb_nxt;

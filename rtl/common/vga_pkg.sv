@@ -26,7 +26,7 @@
     localparam VER_SYNC_TIME   = 6;
     localparam COLOUR          = 12'h8_0_8;
   
-    typedef enum logic {
+    typedef enum logic [1:0] {
         STATE_MENU,
         STATE_GRA,
         STATE_GAMEOVER
