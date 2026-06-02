@@ -19,11 +19,13 @@ module draw_text_line #(
     logic [11:0] rgb_nxt;
     logic pixel_bit;
 
-    logic [11:0] x_offset_in, y_offset_in;
-    logic [11:0] x_offset_del, y_offset_del;
+    logic [11:0] x_offset_in;
+    logic [11:0] y_offset_in;
+    logic [11:0] x_offset_del;
     logic [7:0]  char_idx;
-    logic [11:0] scaled_x_in, scaled_y_in;
-    logic [11:0] scaled_x_del;
+    logic [11:0] scaled_x_in; 
+    logic [3:0] scaled_y_in;
+    logic [2:0] scaled_x_del;
 
     assign x_offset_in = vga_in.hcount - X_POS;
     assign y_offset_in = vga_in.vcount - Y_POS;
@@ -31,17 +33,17 @@ module draw_text_line #(
     always_comb begin
         if (SCALE == 4) begin
             scaled_x_in = {2'b00, x_offset_in[11:2]};
-            scaled_y_in = {2'b00, y_offset_in[11:2]};
+            scaled_y_in = y_offset_in[5:2];
         end else if (SCALE == 2) begin
             scaled_x_in = {1'b0, x_offset_in[11:1]};
-            scaled_y_in = {1'b0, y_offset_in[11:1]};
+            scaled_y_in = y_offset_in[4:1];
         end else begin
             scaled_x_in = x_offset_in;
-            scaled_y_in = y_offset_in;
+            scaled_y_in = y_offset_in[3:0];
         end
     end
 
-    assign char_idx = scaled_x_in[11:3];
+    assign char_idx = scaled_x_in[10:3];
 
     always_comb begin
         if (char_idx < TEXT_LEN) begin
@@ -76,15 +78,14 @@ module draw_text_line #(
     end
 
     assign x_offset_del = vga_delayed.hcount - X_POS;
-    assign y_offset_del = vga_delayed.vcount - Y_POS;
 
     always_comb begin
         if (SCALE == 4)      
-        scaled_x_del = {2'b00, x_offset_del[11:2]};
+        scaled_x_del = x_offset_del[4:2];
         else if (SCALE == 2) 
-        scaled_x_del = {1'b0, x_offset_del[11:1]};
+        scaled_x_del = x_offset_del[3:1];
         else                 
-        scaled_x_del = x_offset_del;
+        scaled_x_del = x_offset_del[2:0];
     end
 
     assign pixel_bit = font_pixels[3'd7 - scaled_x_del[2:0]];
