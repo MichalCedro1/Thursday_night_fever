@@ -1,10 +1,10 @@
 import mido
 import sys
 
-PLIK_MIDI = 'music/NightFever-pianino.mid'          # Nazwa Twojego pliku MIDI
-PLIK_WYJSCIOWY = 'music/rtl/music_rom_pianino.sv'          # Nazwa wygenerowanego pliku
-NAZWA_MODULU = 'music/music_rom_pianino'               # Nazwa modułu w kodzie SV
-CZESTOTLIWOSC_ZEGARA = 100_000_000
+PLIK_MIDI = 'music/NightFever/NightFever-bas.mid'          # Nazwa Twojego pliku MIDI
+PLIK_WYJSCIOWY = 'music/rtl/music_rom_bas.sv'          # Nazwa wygenerowanego pliku
+NAZWA_MODULU = 'music/music_rom_bas'               # Nazwa modułu w kodzie SV
+CZESTOTLIWOSC_ZEGARA = 65_000_000
 
 def midi_note_to_freq(note):
     """Konwertuje numer nuty MIDI na częstotliwość w Hz."""
