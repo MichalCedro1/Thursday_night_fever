@@ -29,6 +29,19 @@ module falling_block_ctrl (
     logic [3:0] block_index;
     logic [3:0] current_speed;
 
+    logic enable_prev;
+    logic start_new_game;
+
+    always_ff @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            enable_prev <= 1'b0;
+        end else begin
+            enable_prev <= enable;
+        end
+    end
+
+    assign start_new_game = enable && !enable_prev;
+
     logic [25:0] beatmap [0:9];
     
     always_comb begin
@@ -88,6 +101,19 @@ module falling_block_ctrl (
             game_over     <= 1'b0;
         end else begin
             vsync_prev <= vsync;
+
+            if (start_new_game) begin
+                wait_counter  <= '0;
+                block_index   <= '0;
+                current_speed <= '0;
+                block_active  <= 1'b0;
+                block_x       <= '0;
+                block_y       <= '0;
+                game_over     <= 1'b0;
+                score_ones    <= '0;
+                score_tens    <= '0;
+                score_hunds   <= '0;
+            end
             
             if (enable && !game_over) begin
                 if (block_active && space_pressed) begin                 
@@ -166,13 +192,20 @@ module falling_block_ctrl (
 
             end else if (!enable) begin
                 block_active  <= 1'b0;
-                wait_counter  <= '0;
-                block_index   <= '0;
-                game_over     <= 1'b0;
-                score_ones    <= '0;
-                score_tens    <= '0;
-                score_hunds   <= '0;
+                if (game_over) begin
+                    if (space_pressed) game_over <= 1'b0;
+                end else begin
+                    wait_counter  <= '0;
+                    block_index   <= '0;
+                    current_speed <= '0;
+                    block_x       <= '0;
+                    block_y       <= '0;
+                    score_ones    <= '0;
+                    score_tens    <= '0;
+                    score_hunds   <= '0;
+                end
             end
         end
     end
+    
 endmodule

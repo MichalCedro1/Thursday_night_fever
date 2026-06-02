@@ -43,19 +43,19 @@ module highscore_board (
         .vga_in(vga_in), .vga_out(vga_header)
     );
 
-    draw_score #( .X_POS(500), .Y_POS(448) ) draw_t1 (
+    draw_score #( .X_POS(504), .Y_POS(448) ) draw_t1 (
         .clk(clk), .rst_n(rst_n), .game_active(show_board),
         .score_ones(top1[3:0]), .score_tens(top1[7:4]), .score_hunds(top1[11:8]),
         .text_color(12'hFF0), .vga_in(vga_header), .vga_out(vga_t1)
     );
 
-    draw_score #( .X_POS(500), .Y_POS(480) ) draw_t2 (
+    draw_score #( .X_POS(504), .Y_POS(480) ) draw_t2 (
         .clk(clk), .rst_n(rst_n), .game_active(show_board),
         .score_ones(top2[3:0]), .score_tens(top2[7:4]), .score_hunds(top2[11:8]),
         .text_color(12'hCCC), .vga_in(vga_t1), .vga_out(vga_t2)
     );
 
-    draw_score #( .X_POS(500), .Y_POS(512) ) draw_t3 (
+    draw_score #( .X_POS(504), .Y_POS(512) ) draw_t3 (
         .clk(clk), .rst_n(rst_n), .game_active(show_board),
         .score_ones(top3[3:0]), .score_tens(top3[7:4]), .score_hunds(top3[11:8]),
         .text_color(12'hD73), .vga_in(vga_t2), .vga_out(vga_out)

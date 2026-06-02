@@ -85,6 +85,7 @@
     /**
      * Instancje modułów
      */
+
     vga_timing u_vga_timing (
         .clk    (clk),
         .rst_n  (rst_n_65),
