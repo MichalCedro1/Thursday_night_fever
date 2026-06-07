@@ -1,5 +1,5 @@
 module falling_block_ctrl #(
-    parameter MAX_ONSCREEN = 4
+    parameter MAX_ONSCREEN = 8
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -317,7 +317,7 @@ module falling_block_ctrl #(
                 end
 
                 if (block_index < TOTAL_BLOCKS) begin
-                    if (global_frame_counter == beatmap[block_index][31:16]) begin
+                    if (global_frame_counter >= beatmap[block_index][31:16]) begin
                         if (slot_found) begin
                             block_active[free_slot] <= 1'b1;
                             block_y[free_slot]      <= 12'd0; 
