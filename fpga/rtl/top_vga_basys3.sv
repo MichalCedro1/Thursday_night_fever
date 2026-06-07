@@ -38,8 +38,7 @@
      * Local variables and signals
      */
 
-     wire clk_65MHz;  
-     wire clk_100MHz; 
+     wire clk_65MHz;   
      wire pclk_mirror;
 
     //(* KEEP = "TRUE" *)
@@ -161,19 +160,19 @@
     logic spk1, spk2;
 
     music_rom_melodia u_rom_1 (.bus(m_if_1.rom));
-    music_controller u_ctrl_1 (.clk(clk_100MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_1.controller));
-    tone_generator u_tone_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.tone_gen), .speaker(spk1));
+    music_controller u_ctrl_1 (.clk(clk_65MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_1.controller));
+    tone_generator u_tone_1 (.clk(clk_65MHz), .rst_n(!btnC), .bus(m_if_1.tone_gen), .speaker(spk1));
 
     music_rom_bas u_rom_2 (.bus(m_if_2.rom));
-    music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_2.controller));
-    tone_generator u_tone_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
+    music_controller u_ctrl_2 (.clk(clk_65MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_2.controller));
+    tone_generator u_tone_2 (.clk(clk_65MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
 
     logic [2:0] audio_mix;
 
     assign audio_mix = spk1 + spk2;
 
     audio_pwm u_mixer (
-        .clk(clk_100MHz),
+        .clk(clk_65MHz),
         .rst_n(!btnC),
         .mix_in(audio_mix),
         .pwm_out(speaker)
