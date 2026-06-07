@@ -99,6 +99,7 @@ logic is_break;
 logic is_extended;
 logic a_pressed;
 logic d_pressed;
+logic space_is_held;
 
 always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -118,17 +119,25 @@ always_ff @(posedge clk or negedge rst_n) begin
                 is_break <= 1'b1;
             end else begin
                 if (scan_code == 8'h1C || (scan_code == 8'h6B && is_extended)) begin
+                    if (!is_break) a_pressed <= 1'b1; 
+                    else           a_pressed <= 1'b0;
+                end
+
+                else if (scan_code == 8'h23 || (scan_code == 8'h74 && is_extended)) begin
+                    if (!is_break) d_pressed <= 1'b1;
+                    else           d_pressed <= 1'b0; 
+                end
+                
+                else if (scan_code == 8'h29) begin 
                     if (!is_break) begin
-                        a_pressed <= 1'b1; 
-                        d_pressed <= 1'b0; 
+                        if (!space_is_held) begin
+                            space_pressed <= 1'b1;
+                            space_is_held <= 1'b1;
+                        end
+                    end else begin
+                        space_is_held <= 1'b0;
                     end
-                end else if (scan_code == 8'h23 || (scan_code == 8'h74 && is_extended)) begin
-                    if (!is_break) begin
-                        d_pressed <= 1'b1;
-                        a_pressed <= 1'b0; 
-                    end
-                end else if (scan_code == 8'h29) begin 
-                    if (!is_break) space_pressed <= 1'b1; 
+                    
                 end else if (scan_code == 8'h16) begin 
                     if (!is_break) current_song_id <= 2'b00;
                 end else if (scan_code == 8'h1E) begin 
