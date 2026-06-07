@@ -1,9 +1,9 @@
 import mido
 import sys
 
-PLIK_MIDI = 'music/NightFever/NightFever-bas.mid'          # Nazwa Twojego pliku MIDI
-PLIK_WYJSCIOWY = 'music/rtl/music_rom_bas.sv'          # Nazwa wygenerowanego pliku
-NAZWA_MODULU = 'music/music_rom_bas'               # Nazwa modułu w kodzie SV
+PLIK_MIDI = 'music/NightFever/melodia.mid'          # Nazwa Twojego pliku MIDI
+PLIK_WYJSCIOWY = 'music/rtl/music_melodia_bas.sv'          # Nazwa wygenerowanego pliku
+NAZWA_MODULU = 'music_rom_melodia'               # Nazwa modułu w kodzie SV
 CZESTOTLIWOSC_ZEGARA = 65_000_000
 
 def midi_note_to_freq(note):
