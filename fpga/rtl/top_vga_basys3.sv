@@ -131,6 +131,7 @@
      * Project functional top module
      */
     wire [1:0] current_song_id;
+    wire game_active;
     
     top_vga u_top_vga (
         .clk(clk_65MHz),     
@@ -146,7 +147,8 @@
         .b(vgaBlue),
         .hs(Hsync),
         .vs(Vsync),
-        .current_song_id(current_song_id)
+        .current_song_id(current_song_id),
+        .game_active(game_active)
     );
 
 
@@ -159,11 +161,11 @@
     logic spk1, spk2;
 
     music_rom_melodia u_rom_1 (.bus(m_if_1.rom));
-    music_controller u_ctrl_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.controller));
+    music_controller u_ctrl_1 (.clk(clk_100MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_1.controller));
     tone_generator u_tone_1 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_1.tone_gen), .speaker(spk1));
 
     music_rom_bas u_rom_2 (.bus(m_if_2.rom));
-    music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.controller));
+    music_controller u_ctrl_2 (.clk(clk_100MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_2.controller));
     tone_generator u_tone_2 (.clk(clk_100MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
 
     logic [2:0] audio_mix;

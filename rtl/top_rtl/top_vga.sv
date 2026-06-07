@@ -29,7 +29,8 @@
     output logic [3:0] r,
     output logic [3:0] g,
     output logic [3:0] b,
-    output logic [1:0] current_song_id
+    output logic [1:0] current_song_id,
+    output logic game_active
 );
     timeunit 1ns;
     timeprecision 1ps;
@@ -56,6 +57,7 @@
     logic        player_color_sig, enemy_color_sig;
     logic        launch_game_sig;
     
+    assign game_active = (current_state == STATE_GRA);
 
     vga_if vga_tim(); 
     vga_if vga_bg();

@@ -1,6 +1,7 @@
 module music_controller (
     input logic clk,
     input logic rst_n,
+    input logic enable,
     music_if.controller bus
 );
 
@@ -18,8 +19,12 @@ module music_controller (
         timer_nxt = timer;
         current_address_nxt = current_address;
         last_song_id_nxt = bus.song_id;
+        
+        if (!enable) begin
+            timer_nxt = 0;
+            current_address_nxt = 0;
 
-        if(bus.song_id != last_song_id) begin
+        end else if(bus.song_id != last_song_id) begin
             timer_nxt = 0;
             current_address_nxt = 0;
 
