@@ -1,5 +1,5 @@
 module falling_block_ctrl #(
-    parameter MAX_ONSCREEN = 8
+    parameter MAX_ONSCREEN = 1
 )(
     input  logic        clk,
     input  logic        rst_n,
@@ -25,10 +25,12 @@ module falling_block_ctrl #(
     localparam PLAYER_SIZE = 12'd100; 
     localparam ENEMY_SIZE  = 12'd70;
     localparam TOTAL_BLOCKS = 10'd143;
+    localparam COOLDOWN_TIME = 6'd20;
 
     logic vsync_prev;
     logic enable_prev;
     logic start_new_game;
+    logic [5:0] space_cooldown;
 
     logic space_prev, space_pulse;
     always_ff @(posedge clk or negedge rst_n) begin
@@ -279,6 +281,7 @@ module falling_block_ctrl #(
             score_tens           <= '0;
             score_hunds          <= '0;
             game_over            <= 1'b0;
+            space_cooldown       <= '0;
         end else begin
             vsync_prev <= vsync;
 
@@ -294,32 +297,40 @@ module falling_block_ctrl #(
             
             if (enable && !game_over) begin
                 
-                if (space_pulse && target_hit_valid) begin
-                    block_active[target_hit_idx] <= 1'b0;
+                if (vsync && !vsync_prev && space_cooldown > 0) begin
+                    space_cooldown <= space_cooldown - 1'b1;
+                end
+
+                if (space_pulse && space_cooldown == 0) begin
+                    space_cooldown <= COOLDOWN_TIME;
                     
-                    if (is_perfect_hit) begin
-                        if (score_ones >= 4'd8) begin
-                            score_ones <= score_ones + 4'd2 - 4'd10;
-                            if (score_tens == 4'd9) begin
-                                score_tens <= 4'd0;
-                                if (score_hunds != 4'd9) score_hunds <= score_hunds + 1'b1;
+                    if (target_hit_valid) begin
+                        block_active[target_hit_idx] <= 1'b0;
+                        
+                        if (is_perfect_hit) begin
+                            if (score_ones >= 4'd8) begin
+                                score_ones <= score_ones + 4'd2 - 4'd10;
+                                if (score_tens == 4'd9) begin
+                                    score_tens <= 4'd0;
+                                    if (score_hunds != 4'd9) score_hunds <= score_hunds + 1'b1;
+                                end else begin
+                                    score_tens <= score_tens + 1'b1;
+                                end
                             end else begin
-                                score_tens <= score_tens + 1'b1;
+                                score_ones <= score_ones + 4'd2;
                             end
-                        end else begin
-                            score_ones <= score_ones + 4'd2;
-                        end
-                    end else if (is_good_hit) begin
-                        if (score_ones == 4'd9) begin
-                            score_ones <= 4'd0;
-                            if (score_tens == 4'd9) begin
-                                score_tens <= 4'd0;
-                                if (score_hunds != 4'd9) score_hunds <= score_hunds + 1'b1;
+                        end else if (is_good_hit) begin
+                            if (score_ones == 4'd9) begin
+                                score_ones <= 4'd0;
+                                if (score_tens == 4'd9) begin
+                                    score_tens <= 4'd0;
+                                    if (score_hunds != 4'd9) score_hunds <= score_hunds + 1'b1;
+                                end else begin
+                                    score_tens <= score_tens + 1'b1;
+                                end
                             end else begin
-                                score_tens <= score_tens + 1'b1;
+                                score_ones <= score_ones + 1'b1;
                             end
-                        end else begin
-                            score_ones <= score_ones + 1'b1;
                         end
                     end
                 end

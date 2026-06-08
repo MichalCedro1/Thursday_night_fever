@@ -20,8 +20,9 @@
  module top_vga (
     input  logic clk,       
     input  logic rst_n,  
-    inout  wire  PS2Clk,
-    inout  wire  PS2Data,
+    input  wire  PS2Clk,
+    input  wire  PS2Data,
+    input  logic sw0,
     input  logic uart_rx_pin,
     output logic uart_tx_pin,
     output logic vs,
@@ -98,15 +99,12 @@
         .hsync  (vga_tim.hsync),
         .hblnk  (vga_tim.hblnk)
     );
-
-    game_fsm u_state_machine (
+    
+   game_fsm u_state_machine (
         .clk              (clk),
         .rst_n            (rst_n_65),
-        .mouse_left_click (space_pressed_sig),
         .launch_game      (launch_game_sig),
-        .game_over_flag   (game_over_sig),
-        .mouse_x          (12'd400),          
-        .mouse_y          (12'd300),          
+        .game_over_flag   (game_over_sig),         
         .current_state    (current_state)
     );
 
@@ -139,7 +137,8 @@
         .ypos             (key_ypos),
         .player_color_bit (player_color_sig),
         .vga_in           (vga_bg),
-        .vga_out          (vga_rect)
+        .vga_out          (vga_rect),
+        .char_select      (sw0)
     );
 
     draw_falling_block u_draw_falling (

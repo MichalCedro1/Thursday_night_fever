@@ -94,7 +94,7 @@ assign ps2_clk_fall = (ps2_clk_clean_prev == 1'b1) && (ps2_clk_clean == 1'b0);
         end
     end
 
-// 4. Logika wciskania (Zmieniona na ruch ciągły)
+// 4. Logika wciskania
 logic is_break;
 logic is_extended;
 logic a_pressed;
@@ -109,6 +109,7 @@ always_ff @(posedge clk or negedge rst_n) begin
         d_pressed       <= 1'b0;
         space_pressed   <= 1'b0;
         current_song_id <= 2'b00;
+        space_is_held   <= 1'b0;
     end else begin
         space_pressed <= 1'b0; 
 
@@ -127,17 +128,13 @@ always_ff @(posedge clk or negedge rst_n) begin
                     if (!is_break) d_pressed <= 1'b1;
                     else           d_pressed <= 1'b0; 
                 end
-                
                 else if (scan_code == 8'h29) begin 
-                    if (!is_break) begin
-                        if (!space_is_held) begin
-                            space_pressed <= 1'b1;
-                            space_is_held <= 1'b1;
-                        end
-                    end else begin
+                    if (is_break) begin
                         space_is_held <= 1'b0;
+                    end else if (!space_is_held) begin
+                        space_pressed <= 1'b1;
+                        space_is_held <= 1'b1;
                     end
-                    
                 end else if (scan_code == 8'h16) begin 
                     if (!is_break) current_song_id <= 2'b00;
                 end else if (scan_code == 8'h1E) begin 

@@ -15,8 +15,9 @@
  module top_vga_basys3 (
     input  wire clk,
     input  wire btnC,
-    inout  wire PS2Clk,
-    inout  wire PS2Data,
+    input  wire sw0,
+    input  wire PS2Clk,
+    input  wire PS2Data,
     output wire Vsync,
     output wire Hsync,
     output wire [3:0] vgaRed,
@@ -111,7 +112,7 @@
 
     clk_wiz_0 u_clk_wiz (
         .clk_in1 (clk),       
-        .clk_out1(clk_65MHz),  
+        .clk_out1(clk_65MHz),
         .clk_out2(clk_100MHz)  
     );
     
@@ -135,6 +136,7 @@
     top_vga u_top_vga (
         .clk(clk_65MHz),     
         .rst_n(!btnC),
+        .sw0(sw0),
         .PS2Clk(PS2Clk),
         .PS2Data(PS2Data),
         
