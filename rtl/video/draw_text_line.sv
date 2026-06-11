@@ -23,7 +23,7 @@ module draw_text_line #(
     logic [11:0] y_offset_in;
     logic [11:0] x_offset_del;
     logic [7:0]  char_idx;
-    logic [11:0] scaled_x_in; 
+    logic [10:0] scaled_x_in; 
     logic [3:0] scaled_y_in;
     logic [2:0] scaled_x_del;
 
@@ -32,13 +32,13 @@ module draw_text_line #(
 
     always_comb begin
         if (SCALE == 4) begin
-            scaled_x_in = {2'b00, x_offset_in[11:2]};
+            scaled_x_in = {1'b0, x_offset_in[11:2]};
             scaled_y_in = y_offset_in[5:2];
         end else if (SCALE == 2) begin
-            scaled_x_in = {1'b0, x_offset_in[11:1]};
+            scaled_x_in = x_offset_in[11:1];
             scaled_y_in = y_offset_in[4:1];
         end else begin
-            scaled_x_in = x_offset_in;
+            scaled_x_in = x_offset_in[10:0];
             scaled_y_in = y_offset_in[3:0];
         end
     end

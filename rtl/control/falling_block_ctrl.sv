@@ -406,7 +406,7 @@ end
                         if (slot_found) begin
                             block_active[free_slot] <= 1'b1;
                             block_y[free_slot]      <= 12'd0; 
-                            block_x[free_slot]      <= beatmap[block_index][15:5]; 
+                            block_x[free_slot]      <= {1'b0, beatmap[block_index][15:5]};
                             block_speed[free_slot]  <= beatmap[block_index][4:1];  
                             block_color[free_slot]  <= beatmap[block_index][0];    
                             
