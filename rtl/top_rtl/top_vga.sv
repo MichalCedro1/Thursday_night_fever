@@ -222,12 +222,32 @@
 
     vga_if vga_start_out(); 
     vga_if vga_go1_out();
-
+/*
     highscore_board u_highscores (
         .clk(clk),
         .rst_n(rst_n_65),
-        .game_over_sig(game_over_sig),
+        //.game_over_sig(game_over_sig),
         .score_ones(score_1), .score_tens(score_10), .score_hunds(score_100),
+        .show_board(current_state == STATE_MENU),
+        .vga_in(vga_score_out),
+        .vga_out(vga_top3_out)
+    );
+    */
+    highscore_board u_highscores (
+        .clk(clk),
+        .rst_n(rst_n_65),
+        // .game_over_sig - usunięto z modułu, więc usuń ten kabel
+        
+        // Twój wynik
+        .score_ones(score_1), 
+        .score_tens(score_10), 
+        .score_hunds(score_100),
+        
+        // Wynik przeciwnika
+        .opp_score_ones(opp_1), 
+        .opp_score_tens(opp_10), 
+        .opp_score_hunds(opp_100),
+        
         .show_board(current_state == STATE_MENU),
         .vga_in(vga_score_out),
         .vga_out(vga_top3_out)
