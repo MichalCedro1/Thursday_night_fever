@@ -51,13 +51,13 @@ set sv_files {
     ../rtl/common/reset_sync.sv
     rtl/top_vga_basys3.sv
     
-    ../music/rtl/music_if.sv
-    ../music/rtl/music_controller.sv
-    ../music/rtl/tone_generator.sv
-    ../music/rtl/audio_pwm.sv
+    ..rtl/music/music_if.sv
+    ..rtl/music/music_controller.sv
+    ..rtl/music/tone_generator.sv
+    ..rtl/music/audio_pwm.sv
 
-    ../music/rom/music_rom_melodia.sv
-    ../music/rom/music_rom_bas.sv
+    ..rtl/memory/music_rom_melodia.sv
+    ..rtl/memory/music_rom_bas.sv
 }
 
 # Specify Verilog design files location         -- EDIT
