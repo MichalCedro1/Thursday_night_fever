@@ -1,7 +1,7 @@
 module tone_generator (
     input logic clk,
     input logic rst_n,
-    music_if.tone_gen bus,
+    input logic [31:0] note_divider,
     output logic speaker
 );
 
@@ -23,11 +23,11 @@ module tone_generator (
         counter_nxt = counter;
         speaker_nxt = speaker;
 
-        if (bus.note_divider == 0) begin
+        if (note_divider == 0) begin
             counter_nxt = 0;
             speaker_nxt = 0;
         end else begin
-            if (counter>= bus.note_divider - 1) begin
+            if (counter>= note_divider - 1) begin
                 counter_nxt = 0;
                 speaker_nxt = ~speaker;
             end else begin

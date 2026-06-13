@@ -155,19 +155,58 @@
 
     assign amp_en = 1'b1;
 
-    music_if m_if_1(.song_id(current_song_id));
-    music_if m_if_2(.song_id(current_song_id));
-    music_if m_if_3(.song_id(current_song_id));
+    logic [15:0] addr_1;
+    logic [31:0] duration_1;
+    logic [31:0] note_divider_1;
+
+    logic [15:0] addr_2;
+    logic [31:0] duration_2;
+    logic [31:0] note_divider_2;
 
     logic spk1, spk2;
 
-    music_rom_melodia u_rom_1 (.bus(m_if_1.rom));
-    music_controller u_ctrl_1 (.clk(clk_65MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_1.controller));
-    tone_generator u_tone_1 (.clk(clk_65MHz), .rst_n(!btnC), .bus(m_if_1.tone_gen), .speaker(spk1));
+    music_controller u_ctrl_1 (
+        .clk(clk_65MHz), 
+        .rst_n(!btnC), 
+        .enable(game_active), 
+        .duration(duration_1), 
+        .address(addr_1)
+    );
 
-    music_rom_bas u_rom_2 (.bus(m_if_2.rom));
-    music_controller u_ctrl_2 (.clk(clk_65MHz), .rst_n(!btnC), .enable(game_active), .bus(m_if_2.controller));
-    tone_generator u_tone_2 (.clk(clk_65MHz), .rst_n(!btnC), .bus(m_if_2.tone_gen), .speaker(spk2));
+    music_rom_melodia u_rom_1 (
+        .address(addr_1),
+        .duration(duration_1),
+        .note_divider(note_divider_1)
+    );
+
+    tone_generator u_tone_1 (
+        .clk(clk_65MHz), 
+        .rst_n(!btnC), 
+        .note_divider(note_divider_1), 
+        .speaker(spk1)
+    );
+
+    music_controller u_ctrl_2 (
+        .clk(clk_65MHz), 
+        .rst_n(!btnC), 
+        .enable(game_active), 
+        .duration(duration_2), 
+        .address(addr_2)
+    );
+
+    music_rom_bas u_rom_2 (
+        .address(addr_2),
+        .duration(duration_2),
+        .note_divider(note_divider_2)
+    );
+
+    tone_generator u_tone_2 (
+        .clk(clk_65MHz), 
+        .rst_n(!btnC), 
+        .note_divider(note_divider_2), 
+        .speaker(spk2)
+    );
+
 
     logic [2:0] audio_mix;
 

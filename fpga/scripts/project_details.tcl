@@ -49,7 +49,6 @@ set sv_files {
     ../rtl/memory/font_rom.sv
     ../rtl/control/game_fsm.sv
     ../rtl/common/reset_sync.sv
-    ../rtl/music/music_if.sv
     ../rtl/music/music_controller.sv
     ../rtl/music/tone_generator.sv
     ../rtl/music/audio_pwm.sv
