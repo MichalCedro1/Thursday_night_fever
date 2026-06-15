@@ -1,7 +1,7 @@
 module audio_pwm (
     input  logic clk,
     input  logic rst_n,
-    input  logic [2:0] mix_in,
+    input  logic [5:0] mix_in,
     output logic pwm_out
 );
     logic [5:0] counter;

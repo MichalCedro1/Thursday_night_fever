@@ -22,10 +22,11 @@ module multiplayer_ctrl (
     output logic [3:0] opp_score_hunds,
     output logic       opp_score_ready,
     output logic [1:0] match_result,
-    output logic       launch_game      
+    output logic       launch_game,
+    output logic       synced_game_over    
 );
 
-    enum logic [2:0] {TX_IDLE, TX_WAIT_H, TX_WAIT_T, TX_WAIT_O} tx_state;
+    enum logic [2:0] {TX_IDLE, TX_WAIT_H, TX_WAIT_T, TX_WAIT_O, TX_WAIT_DONE} tx_state;
     
     logic [11:0] prev_my_score;
     logic [11:0] current_my_score;
@@ -83,6 +84,15 @@ module multiplayer_ctrl (
                     tx_state <= TX_WAIT_O;
                 end
                 TX_WAIT_O: if (!tx_busy && !tx_start) begin
+                    if (game_over) begin
+                        tx_data  <= 8'hED;
+                        tx_start <= 1'b1;
+                        tx_state <= TX_WAIT_DONE;
+                    end else begin
+                        tx_state <= TX_IDLE;
+                    end
+                end
+                TX_WAIT_DONE: if (!tx_busy && !tx_start) begin
                     tx_state <= TX_IDLE;
                 end
                 default: tx_state <= TX_IDLE;
@@ -91,6 +101,9 @@ module multiplayer_ctrl (
     end
 
     // Logika RX
+    logic remote_game_over;
+    assign synced_game_over = game_over && remote_game_over;
+
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             opp_score_hunds <= '0;
@@ -100,6 +113,7 @@ module multiplayer_ctrl (
             local_ready     <= 1'b0;
             remote_ready    <= 1'b0;
             launch_game     <= 1'b0;
+            remote_game_over <= 1'b0;
         end else begin
             
             // Czyszczenie wyniku przeciwnika DOPIERO na start gry
@@ -108,6 +122,7 @@ module multiplayer_ctrl (
                 opp_score_tens  <= '0;
                 opp_score_ones  <= '0;
                 opp_score_ready <= 1'b0;
+                remote_game_over <= 1'b0;
             end
 
             if (!game_enable) begin
@@ -126,8 +141,10 @@ module multiplayer_ctrl (
                 remote_ready <= 1'b0;
                 launch_game  <= 1'b0;
             end
-            
+
             if (rx_ready) begin
+                if (rx_data == 8'hED) remote_game_over <= 1'b1;
+
                 case (rx_data[7:4])
                     4'hA: opp_score_hunds <= rx_data[3:0];
                     4'hB: opp_score_tens  <= rx_data[3:0];

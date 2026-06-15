@@ -208,9 +208,11 @@
     );
 
 
-    logic [2:0] audio_mix;
-
-    assign audio_mix = spk1 + spk2;
+    logic [1:0] raw_mix;
+    logic [5:0] audio_mix;
+    
+    assign raw_mix = spk1 + spk2;
+    assign audio_mix = raw_mix * 12;
 
     audio_pwm u_mixer (
         .clk(clk_65MHz),

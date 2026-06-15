@@ -49,7 +49,8 @@
      * Sygnały i interfejsy
      */
     game_state_t current_state;
-    logic        game_over_sig;
+    logic local_game_over_sig;
+    logic global_game_over_sig;
     logic [11:0] key_xpos, key_ypos;
     logic [11:0] enemy_x, enemy_y;
     logic        enemy_active;
@@ -83,7 +84,7 @@
     assign vga_game_over.vsync  = vga_falling_out.vsync;
     assign vga_game_over.vblnk  = vga_falling_out.vblnk;
 
-    assign vga_game_over.rgb    = game_over_sig ? 12'h000 : vga_falling_out.rgb;
+    assign vga_game_over.rgb = global_game_over_sig ? 12'h000 : vga_falling_out.rgb;
 
     /**
      * Instancje modułów
@@ -106,7 +107,7 @@
         .clk              (clk),
         .rst_n            (rst_n_65),
         .launch_game      (launch_game_sig),
-        .game_over_flag   (game_over_sig),         
+        .game_over_flag   (global_game_over_sig),         
         .current_state    (current_state)
     );
 
@@ -170,7 +171,7 @@
         .score_ones   (score_1),           
         .score_tens   (score_10),          
         .score_hunds  (score_100),
-        .game_over    (game_over_sig)
+        .game_over    (local_game_over_sig)
     );
 
     logic [7:0] tx_data, rx_data;
@@ -186,7 +187,8 @@
     multiplayer_ctrl u_mp_ctrl (
     .clk(clk), .rst_n(rst_n_65), 
     .game_enable(current_state == STATE_GRA),
-    .game_over(game_over_sig),
+    .game_over(local_game_over_sig), 
+    .synced_game_over(global_game_over_sig),
     .my_score_ones(score_1), .my_score_tens(score_10), .my_score_hunds(score_100),
     .space_pressed(space_pressed_sig),     
     .rx_data(rx_data), .rx_ready(rx_ready), 
@@ -198,7 +200,7 @@
 
     logic [11:0] my_final_color;
     always_comb begin
-        if (!game_over_sig)        my_final_color = 12'hFFF; 
+        if (!global_game_over_sig)        my_final_color = 12'hFFF; 
         else if (match_result==1)  my_final_color = 12'h0F0; 
         else if (match_result==2)  my_final_color = 12'hF00; 
         else                       my_final_color = 12'hFF0;

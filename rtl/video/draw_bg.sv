@@ -58,34 +58,9 @@ module draw_bg
         always_comb begin : bg_comb_blk
             if (vga_in.vblnk || vga_in.hblnk) begin           
                 rgb_nxt = 12'h0_0_0;                      
-            end else begin   
-                if (state == STATE_MENU) begin
-                    if (vga_in.vcount == 0)                                 
-                        rgb_nxt = 12'hf_f_0;                                
-                    else if (vga_in.vcount == VER_PIXELS - 1)               
-                        rgb_nxt = 12'hf_0_0;                                
-                    else if (vga_in.hcount == 0)                            
-                        rgb_nxt = 12'h0_f_0;                                
-                    else if (vga_in.hcount == HOR_PIXELS - 1)               
-                        rgb_nxt = 12'h0_0_f;
-                    else begin
-                        rgb_nxt = 12'h0_0_0;
-                    end
-
-                end else begin
-                
-                    if (vga_in.vcount == 0)                                 
-                        rgb_nxt = 12'hf_f_0;                                
-                    else if (vga_in.vcount == VER_PIXELS - 1)               
-                        rgb_nxt = 12'hf_0_0;                                
-                    else if (vga_in.hcount == 0)                            
-                        rgb_nxt = 12'h0_f_0;                                
-                    else if (vga_in.hcount == HOR_PIXELS - 1)               
-                        rgb_nxt = 12'h0_0_f;
-                else                                   
+            end else begin                                  
                     rgb_nxt = 12'h0_0_0;
             end
         end
-    end
 
 endmodule
