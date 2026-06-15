@@ -24,7 +24,7 @@ module falling_block_ctrl #(
 
     localparam PLAYER_SIZE = 12'd100; 
     localparam ENEMY_SIZE  = 12'd70;
-    localparam TOTAL_BLOCKS = 10'd43;
+    localparam TOTAL_BLOCKS = 10'd60;
     localparam HIT_COOLDOWN = 6'd15;
     localparam PENALTY_TIME = 6'd60;
 
@@ -51,7 +51,7 @@ module falling_block_ctrl #(
 
     assign start_new_game = enable && !enable_prev;
 
-    logic [31:0] beatmap [0:42];
+    logic [31:0] beatmap [0:59];
     always_comb begin
         beatmap[0]  = {16'd1254, 11'd350, 4'd10, 1'b0};
         beatmap[1]  = {16'd1278, 11'd500, 4'd10, 1'b1};
@@ -96,6 +96,23 @@ module falling_block_ctrl #(
         beatmap[40] = {16'd3721, 11'd650, 4'd10, 1'b0};
         beatmap[41] = {16'd3801, 11'd800, 4'd10, 1'b1};
         beatmap[42] = {16'd3850, 11'd650, 4'd10, 1'b0};
+        beatmap[43] = {16'd3914, 11'd800, 4'd10, 1'b1};
+        beatmap[44] = {16'd3978, 11'd500, 4'd10, 1'b0};
+        beatmap[45] = {16'd4026, 11'd350, 4'd10, 1'b1};
+        beatmap[46] = {16'd4106, 11'd200, 4'd10, 1'b0};
+        beatmap[47] = {16'd4170, 11'd350, 4'd10, 1'b1};
+        beatmap[48] = {16'd4234, 11'd500, 4'd10, 1'b0};
+        beatmap[49] = {16'd4298, 11'd650, 4'd10, 1'b1};
+        beatmap[50] = {16'd4362, 11'd800, 4'd10, 1'b0};
+        beatmap[51] = {16'd4450, 11'd650, 4'd10, 1'b1};
+        beatmap[52] = {16'd4514, 11'd500, 4'd10, 1'b0};
+        beatmap[53] = {16'd4578, 11'd350, 4'd10, 1'b1};
+        beatmap[54] = {16'd4658, 11'd200, 4'd10, 1'b0};
+        beatmap[55] = {16'd4754, 11'd350, 4'd10, 1'b1};
+        beatmap[56] = {16'd4850, 11'd500, 4'd10, 1'b0};
+        beatmap[57] = {16'd4946, 11'd650, 4'd10, 1'b1};
+        beatmap[58] = {16'd5042, 11'd800, 4'd10, 1'b0};
+        beatmap[59] = {16'd5150, 11'd500, 4'd10, 1'b1};
     end
 
     logic [15:0] global_frame_counter;
